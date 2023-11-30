@@ -6,7 +6,7 @@
 /*   By: migumore <migumore@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 18:55:50 by migumore          #+#    #+#             */
-/*   Updated: 2023/11/29 17:48:32 by migumore         ###   ########.fr       */
+/*   Updated: 2023/11/30 11:56:29 by migumore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,10 +84,8 @@ void	search(int *count, int *count2, t_mi *map_info)
 				&& (*count == 0 || *count2 == 0))
 				map_info[0].sol_map[*count][*count2] = 1;
 			else
-			{
 				conds1(*count, *count2, map_info);
-				conds2(*count, *count2, map_info);
-			}
+			conds2(*count, *count2, map_info);
 			*count2 = *count2 +1;
 		}
 		*count = *count +1;
