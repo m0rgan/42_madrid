@@ -6,7 +6,7 @@
 /*   By: migumore <migumore@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 12:24:28 by migumore          #+#    #+#             */
-/*   Updated: 2024/01/29 13:00:18 by migumore         ###   ########.fr       */
+/*   Updated: 2024/01/29 13:02:41 by migumore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,10 @@ int	main(void)
 		list = list->next;
 		free(temp);
 	}
-	while (list != NULL)
+	while (new_list != NULL)
 	{
 		temp = new_list;
-		list = new_list->next;
+		new_list = new_list->next;
 		free(temp);
 	}
 	list = NULL;
