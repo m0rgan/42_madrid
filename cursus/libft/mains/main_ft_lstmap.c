@@ -6,7 +6,7 @@
 /*   By: migumore <migumore@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 12:24:28 by migumore          #+#    #+#             */
-/*   Updated: 2024/01/29 12:59:23 by migumore         ###   ########.fr       */
+/*   Updated: 2024/01/29 13:00:18 by migumore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,5 +48,7 @@ int	main(void)
 		list = new_list->next;
 		free(temp);
 	}
+	list = NULL;
+	new_list = NULL;
 	return (0);
 }
