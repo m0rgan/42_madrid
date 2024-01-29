@@ -6,7 +6,7 @@
 /*   By: migumore <migumore@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 19:53:11 by migumore          #+#    #+#             */
-/*   Updated: 2024/01/29 11:46:41 by migumore         ###   ########.fr       */
+/*   Updated: 2024/01/29 18:06:06 by migumore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,17 @@
 
 char	*get_next_line(int fd)
 {
-	char	c;
+	char	buffer[BUFFER_SIZE];
 	size_t	bytes;
+	int		line_len;
 	char	*line;
 	int		i;
 
-	bytes = read(fd, &c, 1);
-	while (c != '\n')
-		bytes += read(fd, &c, 1);
+	bytes = read(fd, buffer, BUFFER_SIZE);
 	if (bytes == -1)
 		return (NULL);
-	line = (char *)malloc(sizeof(char) * bytes + 1);
+	line_len = ;
+	line = (char *)malloc(sizeof(char));
 	i = 0;
 	while (i < bytes)
 	{
