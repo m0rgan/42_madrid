@@ -6,7 +6,7 @@
 /*   By: migumore <migumore@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 12:24:28 by migumore          #+#    #+#             */
-/*   Updated: 2024/01/29 12:48:57 by migumore         ###   ########.fr       */
+/*   Updated: 2024/01/29 12:52:31 by migumore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 
 void	*(*f)(void *list)
 {
-	(t_list *)list->content += 5;
+	((t_list *)list)->content += 5;
+	return (list);
 }
 
 void	(*del)(void *list)
@@ -33,6 +34,6 @@ int	main(void)
 		return (NULL);
 	list->content = 1;
 	new_list = ft_lstmap(list, f, del);
-	printf("%i", new_list);
+	printf("%i", new_list->content);
 	return (0);
 }
