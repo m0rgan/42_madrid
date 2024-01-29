@@ -6,7 +6,7 @@
 /*   By: migumore <migumore@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 12:24:28 by migumore          #+#    #+#             */
-/*   Updated: 2024/01/29 12:52:31 by migumore         ###   ########.fr       */
+/*   Updated: 2024/01/29 12:59:23 by migumore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ int	main(void)
 {
 	t_list	*list;
 	t_list	*new_list;
+	t_list	*temp;
 
 	list = malloc(sizeof(t_list));
 	if (list == NULL)
@@ -35,5 +36,17 @@ int	main(void)
 	list->content = 1;
 	new_list = ft_lstmap(list, f, del);
 	printf("%i", new_list->content);
+	while (list != NULL)
+	{
+		temp = list;
+		list = list->next;
+		free(temp);
+	}
+	while (list != NULL)
+	{
+		temp = new_list;
+		list = new_list->next;
+		free(temp);
+	}
 	return (0);
 }
