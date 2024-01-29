@@ -1,39 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   main_ft_lstmap.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: migumore <migumore@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/26 19:53:11 by migumore          #+#    #+#             */
-/*   Updated: 2024/01/29 11:46:41 by migumore         ###   ########.fr       */
+/*   Created: 2024/01/29 12:24:28 by migumore          #+#    #+#             */
+/*   Updated: 2024/01/29 12:33:03 by migumore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
-#include <stdlib.h>
-#include <unistd.h>
+#include "libft.h"
+#include <stdio.h>
 
-char	*get_next_line(int fd)
+void	*(*f)(void *)
 {
-	char	c;
-	size_t	bytes;
-	char	*line;
-	int		i;
+	*list->content += 5;
+}
 
-	bytes = read(fd, &c, 1);
-	while (c != '\n')
-		bytes += read(fd, &c, 1);
-	if (bytes == -1)
-		return (NULL);
-	line = (char *)malloc(sizeof(char) * bytes + 1);
-	i = 0;
-	while (i < bytes)
-	{
-		read(fd, &c, 1);
-		line[i] = c;
-		i++;
-	}
-	line[i] = '\0';
-	return (line);
+void	(*del)(void *)
+{
+	free(list);
+}
+
+int	main(void)
+{
+	t_list	*list;
+
+	list->content = 1;
+	printf("%i", ft_lstmap(list, f(), del()));
+	return (0);
 }
