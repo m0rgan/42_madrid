@@ -6,7 +6,7 @@
 /*   By: migumore <migumore@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 16:12:37 by migumore          #+#    #+#             */
-/*   Updated: 2024/01/23 17:50:55 by migumore         ###   ########.fr       */
+/*   Updated: 2024/01/29 15:50:13 by migumore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,15 @@
 
 void	ft_lstclear(t_list **lst, void (*del)(void *))
 {
+	t_list	*temp;
+
 	if (!lst || !del || !(*lst))
 		return ;
-	ft_lstclear(&(*lst)->next, del);
-	(del)((*lst)->content);
-	free(*lst);
-	*lst = NULL;
+	while (*lst)
+	{
+		temp = (*lst)->next;
+		(del)((*lst)->content);
+		free(*lst);
+		*lst = temp;
+	}
 }
