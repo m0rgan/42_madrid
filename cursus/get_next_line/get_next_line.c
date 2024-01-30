@@ -6,7 +6,7 @@
 /*   By: migumore <migumore@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 19:53:11 by migumore          #+#    #+#             */
-/*   Updated: 2024/01/30 11:57:06 by migumore         ###   ########.fr       */
+/*   Updated: 2024/01/30 19:08:23 by migumore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,26 +17,34 @@
 char	*get_next_line(int fd)
 {
 	char	buffer[BUFFER_SIZE];
-	char	*line;
-	size_t	line_len;
-	int		i;
+	char	*read_text;
+	char	*temp;
+	size_t	bytes;
+	size_t	i;
 
-	if (read(fd, buffer, BUFFER_SIZE) == -1)
+	bytes = read(fd, buffer, BUFFER_SIZE);
+	if (bytes == -1)
 		return (NULL);
-	line_len = 0;
-	while (read(fd, buffer, BUFFER_SIZE) > 0)
+	i = 1;
+	read_text = (char *)ft_calloc((BUFFER_SIZE), sizeof(char));
+	temp = (char *)ft_calloc((BUFFER_SIZE), sizeof(char));
+	if (!read_text || !temp)
+		return (NULL);
+	while (bytes > 0)
 	{
-		while (buffer && ft_strchr(buffer, '\n'))
-			line_len++;
-	}
-	line = (char *)ft_calloc(line_len, sizeof(char));
-	i = 0;
-	while (i < bytes)
-	{
-		read(fd, &c, 1);
-		line[i] = c;
+		read_text = ft_strjoin(buffer, read_text);
+		temp = ft_strjoin(read_text, temp);
+		free(read_text);
+		bytes = read(fd, buffer, BUFFER_SIZE);
 		i++;
+		read_text = (char *)ft_calloc((BUFFER_SIZE * i), sizeof(char));
+		if (!read_text)
+			return (NULL);
+		read_text = ft_strjoin(temp, read_text);
+		free(temp);
+		temp = (char *)ft_calloc((BUFFER_SIZE * i), sizeof(char));
+		if (!temp)
+			return (NULL);
 	}
-	line[i] = '\0';
-	return (line);
+	return (NULL);
 }
