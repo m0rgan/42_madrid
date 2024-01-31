@@ -54,7 +54,7 @@ $(NAME): $(SOURCE:.c=.o)
 .PHONY: clean fclean re all bonus
 
 clean:
-	@rm -f $(NAME) $(SOURCE:.c=.o) $(BONUS:.c=.o)
+	@rm -f $(SOURCE:.c=.o) $(BONUS:.c=.o)
 
 fclean: clean
 	@rm -f $(NAME)
