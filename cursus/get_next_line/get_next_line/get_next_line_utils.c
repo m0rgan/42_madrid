@@ -6,7 +6,7 @@
 /*   By: migumore <migumore@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 19:54:01 by migumore          #+#    #+#             */
-/*   Updated: 2024/01/31 16:07:39 by migumore         ###   ########.fr       */
+/*   Updated: 2024/02/01 11:34:23 by migumore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	*ft_calloc(size_t count, size_t size)
 	return (ptr);
 }
 
-size_t	ft_strlen(const char *s)
+size_t	ft_strlen(char *s)
 {
 	size_t	count;
 
@@ -44,7 +44,7 @@ size_t	ft_strlen(const char *s)
 	return (count);
 }
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*ft_strjoin(char *s1, char *s2)
 {
 	char	*new_s;
 	size_t	len_s1;
@@ -55,7 +55,13 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	len_s2 = ft_strlen(s2);
 	new_s = (char *)ft_calloc((len_s1 + len_s2 + 1), sizeof(char));
 	if (new_s == NULL)
+	{
+		if (s1)
+			free(s1);
+		if (s2)
+			free(s2);
 		return (NULL);
+	}
 	i = 0;
 	while (i < len_s1)
 	{
@@ -69,11 +75,11 @@ char	*ft_strjoin(char const *s1, char const *s2)
 		i++;
 	}
 	new_s[len_s1 + i] = '\0';
-	free((char *)s1);
+	free(s1);
 	return (new_s);
 }
 
-char	*ft_strchr(const char *s, int c)
+char	*ft_strchr(char *s, int c)
 {
 	int	i;
 

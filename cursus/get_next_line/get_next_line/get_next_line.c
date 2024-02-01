@@ -6,7 +6,7 @@
 /*   By: migumore <migumore@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 19:53:11 by migumore          #+#    #+#             */
-/*   Updated: 2024/01/31 16:20:41 by migumore         ###   ########.fr       */
+/*   Updated: 2024/02/01 11:50:21 by migumore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,24 @@ char	*ft_get_text(int fd, char *read_text, char *buffer)
 			return (NULL);
 		}
 		buffer[bytes] = '\0';
+		if (!read_text)
+		{
+			read_text = (char *)ft_calloc(1, sizeof(char));
+			read_text[0] = '\0';
+		}
+		if (!read_text)
+		{
+			free(buffer);
+			return (NULL);
+		}
 		read_text = ft_strjoin(read_text, buffer);
 	}
-	free(buffer);
+	if (buffer)
+		free(buffer);
 	return (read_text);
 }
 
-char	*ft_substr(char const *s, unsigned int start, size_t len)
+char	*ft_substr(char *s, unsigned int start, size_t len)
 {
 	char	*sub_s;
 	size_t	i;
@@ -57,6 +68,30 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	return (sub_s);
 }
 
+char	*ft_substr2(char *s, unsigned int start, size_t len)
+{
+	char	*sub_s;
+	size_t	i;
+
+	if (start >= ft_strlen(s))
+		len = 0;
+	else if (ft_strlen(s + start) < len)
+		len = ft_strlen(s + start);
+	sub_s = ft_calloc((len + 1), sizeof(char));
+	if (sub_s == NULL)
+		return (NULL);
+	i = 0;
+	while (i < len)
+	{
+		sub_s[i] = s[start];
+		i++;
+		start++;
+	}
+	sub_s[i] = '\0';
+	free(s);
+	return (sub_s);
+}
+
 char	*get_next_line(int fd)
 {
 	char	*buffer;
@@ -66,7 +101,7 @@ char	*get_next_line(int fd)
 
 	if (fd == -1 || BUFFER_SIZE <= 0)
 		return (NULL);
-	buffer = (char *)ft_calloc((BUFFER_SIZE), sizeof(char));
+	buffer = (char *)ft_calloc((BUFFER_SIZE + 1), sizeof(char));
 	if (!buffer)
 		return (NULL);
 	read_text = (char *)ft_calloc(1, sizeof(char));
@@ -82,6 +117,6 @@ char	*get_next_line(int fd)
 	while (read_text[line_len] && !ft_strchr("\n", read_text[line_len]))
 		line_len++;
 	line = ft_substr(read_text, 0, (line_len + 1));
-	read_text = ft_substr(read_text, (line_len + 1), ft_strlen(read_text));
+	read_text = ft_substr2(read_text, (line_len + 1), ft_strlen(read_text));
 	return (line);
 }
