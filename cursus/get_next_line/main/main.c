@@ -6,7 +6,7 @@
 /*   By: migumore <migumore@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 11:08:25 by migumore          #+#    #+#             */
-/*   Updated: 2024/02/01 11:49:20 by migumore         ###   ########.fr       */
+/*   Updated: 2024/02/01 15:04:24 by migumore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ int	main(void)
 			return (1);
 		}
 		printf("%s", content);
+		free(content);
 	}
 	free(content);
 	close(fd);
