@@ -6,7 +6,7 @@
 /*   By: migumore <migumore@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 19:54:01 by migumore          #+#    #+#             */
-/*   Updated: 2024/02/01 11:34:23 by migumore         ###   ########.fr       */
+/*   Updated: 2024/02/01 18:11:12 by migumore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,38 +44,33 @@ size_t	ft_strlen(char *s)
 	return (count);
 }
 
-char	*ft_strjoin(char *s1, char *s2)
+char	*ft_strjoin(char *read_text, char *buff)
 {
 	char	*new_s;
-	size_t	len_s1;
-	size_t	len_s2;
 	size_t	i;
+	size_t	j;
 
-	len_s1 = ft_strlen(s1);
-	len_s2 = ft_strlen(s2);
-	new_s = (char *)ft_calloc((len_s1 + len_s2 + 1), sizeof(char));
-	if (new_s == NULL)
+	if (!read_text)
 	{
-		if (s1)
-			free(s1);
-		if (s2)
-			free(s2);
+		read_text = (char *)ft_calloc(1, sizeof(char));
+		if (!read_text)
+			return (NULL);
+		read_text[0] = '\0';
+	}
+	if (!read_text || !buff)
 		return (NULL);
-	}
+	new_s = (char *)ft_calloc((ft_strlen(read_text) + ft_strlen(buff) + 1), 1);
+	if (new_s == NULL)
+		return (NULL);
 	i = 0;
-	while (i < len_s1)
-	{
-		new_s[i] = s1[i];
-		i++;
-	}
-	i = 0;
-	while (i < len_s2)
-	{
-		new_s[len_s1 + i] = s2[i];
-		i++;
-	}
-	new_s[len_s1 + i] = '\0';
-	free(s1);
+	j = 0;
+	while (read_text[i])
+		new_s[i++] = read_text[j++];
+	j = 0;
+	while (buff[j])
+		new_s[i++] = buff[j++];
+	new_s[i] = '\0';
+	free(read_text);
 	return (new_s);
 }
 
@@ -84,6 +79,8 @@ char	*ft_strchr(char *s, int c)
 	int	i;
 
 	i = 0;
+	if (!s)
+		return (NULL);
 	while (*(s + i))
 	{
 		if (*(s + i) == (char)c)
