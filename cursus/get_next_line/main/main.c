@@ -6,7 +6,7 @@
 /*   By: migumore <migumore@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 11:08:25 by migumore          #+#    #+#             */
-/*   Updated: 2024/02/01 15:04:24 by migumore         ###   ########.fr       */
+/*   Updated: 2024/02/02 16:45:06 by migumore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,20 +18,18 @@ int	main(void)
 {
 	int		fd;
 	char	*content;
+	int		i;
 
+	i = 0;
 	fd = open("./text", O_RDONLY);
-	while (content)
+	while (i < 5)
 	{
 		content = get_next_line(fd);
-		if (content == NULL)
-		{
-			printf("Error reading file");
-			return (1);
-		}
 		printf("%s", content);
-		free(content);
+		i++;
 	}
 	free(content);
 	close(fd);
+	system("leaks a.out");
 	return (0);
 }

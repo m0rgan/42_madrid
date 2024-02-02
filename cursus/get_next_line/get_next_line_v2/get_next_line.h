@@ -6,7 +6,7 @@
 /*   By: migumore <migumore@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 20:02:43 by migumore          #+#    #+#             */
-/*   Updated: 2024/02/02 13:07:48 by migumore         ###   ########.fr       */
+/*   Updated: 2024/02/02 16:47:18 by migumore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,15 @@
 #  define BUFFER_SIZE 1024
 # endif
 
-char	*get_next_line(int fd);
-char	*ft_get_text(int fd, char *read_text, int *bytes);
-char	*ft_get_line(char *left_str);
-char	*ft_new_left_str(char *left_str);
 void	ft_bzero(void *s, size_t n);
 void	*ft_calloc(size_t count, size_t size);
-size_t	ft_strlen(char *s);
-char	*ft_strjoin(char *left_str, char *buff);
-char	*ft_strchr(char *s, int c);
+size_t	ft_strlen(const char *s);
+char	*ft_strjoin(char const *s1, char const *s2);
+char	*ft_strchr(const char *s, int c);
+size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
+char	*ft_get_text(int fd, char *read_text);
+char	*ft_get_line(char *read_text);
+char	*ft_remaining_text(char *read_text);
+char	*get_next_line(int fd);
 
 #endif

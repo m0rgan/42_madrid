@@ -6,7 +6,7 @@
 /*   By: migumore <migumore@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 19:54:01 by migumore          #+#    #+#             */
-/*   Updated: 2024/02/02 13:10:01 by migumore         ###   ########.fr       */
+/*   Updated: 2024/02/02 15:40:32 by migumore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,54 +34,49 @@ void	*ft_calloc(size_t count, size_t size)
 	return (ptr);
 }
 
-size_t	ft_strlen(char *s)
+size_t	ft_strlen(const char *s)
 {
 	size_t	count;
 
 	count = 0;
-	if (!s)
-		return (0);
 	while (s[count])
 		count++;
 	return (count);
 }
 
-char	*ft_strjoin(char *read_text, char *buff)
+char	*ft_strjoin(char const *s1, char const *s2)
 {
 	char	*new_s;
+	size_t	len_s1;
+	size_t	len_s2;
 	size_t	i;
-	size_t	j;
 
-	if (!read_text)
-	{
-		read_text = (char *)ft_calloc(1, sizeof(char));
-		read_text[0] = '\0';
-	}
-	if (!read_text || !buff)
-		return (NULL);
-	new_s = (char *)ft_calloc((ft_strlen(read_text) + ft_strlen(buff) + 1), 1);
+	len_s1 = ft_strlen(s1);
+	len_s2 = ft_strlen(s2);
+	new_s = (char *)ft_calloc((len_s1 + len_s2 + 1), sizeof(char));
 	if (new_s == NULL)
 		return (NULL);
 	i = 0;
-	j = 0;
-	if (read_text)
-		while (read_text[i])
-			new_s[i++] = read_text[j++];
-	j = 0;
-	while (buff[j])
-		new_s[i++] = buff[j++];
-	new_s[i] = '\0';
-	free(read_text);
+	while (i < len_s1)
+	{
+		new_s[i] = s1[i];
+		i++;
+	}
+	i = 0;
+	while (i < len_s2)
+	{
+		new_s[len_s1 + i] = s2[i];
+		i++;
+	}
+	new_s[len_s1 + i] = '\0';
 	return (new_s);
 }
 
-char	*ft_strchr(char *s, int c)
+char	*ft_strchr(const char *s, int c)
 {
 	int	i;
 
 	i = 0;
-	if (!s)
-		return (0);
 	while (*(s + i))
 	{
 		if (*(s + i) == (char)c)
@@ -91,5 +86,5 @@ char	*ft_strchr(char *s, int c)
 	if (*(s + i) == (char)c)
 		return ((char *)(s + i));
 	else
-		return (0);
+		return (NULL);
 }
