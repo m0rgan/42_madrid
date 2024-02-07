@@ -6,113 +6,131 @@
 /*   By: migumore <migumore@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 19:53:11 by migumore          #+#    #+#             */
-/*   Updated: 2024/02/02 14:09:07 by migumore         ###   ########.fr       */
+/*   Updated: 2024/02/07 12:32:04 by migumore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-#include <stdio.h>
+
+size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
+{
+	size_t	len;
+	size_t	i;
+
+	len = 0;
+	i = 0;
+	while (src[len])
+		len++;
+	if (dstsize > 0)
+	{
+		while (i < (dstsize - 1) && src[i])
+		{
+			dst[i] = src[i];
+			i++;
+		}
+		dst[i] = '\0';
+	}
+	return (len);
+}
 
 char	*ft_get_text(int fd, char *read_text, int *bytes)
 {
 	char	*buffer;
+	char	*temp;
 
 	buffer = (char *)ft_calloc((BUFFER_SIZE + 1), sizeof(char));
 	if (!buffer)
 		return (NULL);
-	*bytes = 1;
 	while (*bytes > 0)
 	{
 		*bytes = read(fd, buffer, BUFFER_SIZE);
-		if (*bytes == -1)
-		{
-			free(buffer);
-			free(read_text);
-			return (NULL);
-		}
-		if (*bytes == 0)
-		{
-			free(buffer);
-			return (NULL);
-		}
+		if (*bytes == -1 || *bytes == 0)
+			break ;
 		buffer[*bytes] = '\0';
-		read_text = ft_strjoin(read_text, buffer);
+		temp = ft_strjoin(read_text, buffer);
+		free(read_text);
+		read_text = temp;
+		if (ft_strchr(buffer, '\n'))
+			break ;
 	}
 	free(buffer);
+	if (read_text && read_text[0] == '\0')
+	{
+		free(read_text);
+		read_text = NULL;
+	}
 	return (read_text);
 }
 
-char	*ft_substr(char *s, unsigned int start, size_t len)
+char	*ft_get_line(char *read_text)
 {
-	char	*sub_s;
-	size_t	i;
+	char	*line;
+	int		i;
 
-	if (start >= ft_strlen(s))
-		len = 0;
-	else if (ft_strlen(s + start) < len)
-		len = ft_strlen(s + start);
-	sub_s = ft_calloc((len + 1), sizeof(char));
-	if (sub_s == NULL)
+	if (!read_text)
 		return (NULL);
 	i = 0;
-	while (i < len)
-	{
-		sub_s[i] = s[start];
+	while (read_text[i] && read_text[i] != '\n')
 		i++;
-		start++;
-	}
-	sub_s[i] = '\0';
-	return (sub_s);
+	if (read_text[i] == '\n')
+		i++;
+	line = (char *)ft_calloc((i + 1), sizeof(char));
+	if (!line)
+		return (NULL);
+	ft_strlcpy(line, read_text, (i + 1));
+	return (line);
 }
 
-char	*ft_substr_free_s(char *s, unsigned int start, size_t len)
+char	*ft_remaining_text(char *read_text)
 {
-	char	*sub_s;
-	size_t	i;
+	char	*remaining;
+	int		i;
+	int		j;
 
-	if (start >= ft_strlen(s))
-		len = 0;
-	else if (ft_strlen(s + start) < len)
-		len = ft_strlen(s + start);
-	sub_s = ft_calloc((len + 1), sizeof(char));
-	if (sub_s == NULL)
+	i = 0;
+	while (read_text[i] && read_text[i] != '\n')
+		i++;
+	if (!read_text[i])
 	{
-		free(s);
+		free(read_text);
 		return (NULL);
 	}
-	i = 0;
-	while (i < len)
-	{
-		sub_s[i] = s[start];
-		i++;
-		start++;
-	}
-	sub_s[i] = '\0';
-	free(s);
-	return (sub_s);
+	remaining = (char *)ft_calloc((ft_strlen(read_text) - i), sizeof(char));
+	if (!remaining)
+		return (NULL);
+	i++;
+	j = 0;
+	while (read_text[i])
+		remaining[j++] = read_text[i++];
+	remaining[j] = '\0';
+	free(read_text);
+	return (remaining);
 }
 
 char	*get_next_line(int fd)
 {
 	static char	*read_text;
 	char		*line;
-	size_t		len;
 	int			bytes;
 
-	if (fd < 0 || BUFFER_SIZE <= 0)
-		return (NULL);
-	read_text = ft_get_text(fd, read_text, &bytes);
-	if (!read_text || bytes <= 0)
-		return (NULL);
-	len = 0;
-	while (read_text[len] && !ft_strchr("\n", read_text[len]))
-		len++;
-	line = ft_substr(read_text, 0, (len + 1));
-	read_text = ft_substr_free_s(read_text, (len + 1), ft_strlen(read_text));
-	if (!*read_text)
+	if (read(fd, 0, 0) || BUFFER_SIZE <= 0)
 	{
 		free(read_text);
-		return (NULL);
+		read_text = NULL;
+		return (read_text);
 	}
+	if (!read_text)
+	{
+		read_text = (char *)ft_calloc(1, sizeof(char));
+		if (!read_text)
+			return (NULL);
+		read_text[0] = '\0';
+	}
+	bytes = 1;
+	read_text = ft_get_text(fd, read_text, &bytes);
+	if (!read_text)
+		return (NULL);
+	line = ft_get_line(read_text);
+	read_text = ft_remaining_text(read_text);
 	return (line);
 }

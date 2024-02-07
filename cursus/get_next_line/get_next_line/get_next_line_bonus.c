@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: migumore <migumore@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 19:53:11 by migumore          #+#    #+#             */
-/*   Updated: 2024/02/06 17:25:50 by migumore         ###   ########.fr       */
+/*   Updated: 2024/02/07 12:54:29 by migumore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
 {
@@ -44,7 +44,7 @@ char	*ft_get_text(int fd, char *read_text, int *bytes)
 	while (*bytes > 0)
 	{
 		*bytes = read(fd, buffer, BUFFER_SIZE);
-		if (*bytes == -1 || bytes == 0)
+		if (*bytes == -1 || *bytes == 0)
 			break ;
 		buffer[*bytes] = '\0';
 		temp = ft_strjoin(read_text, buffer);
@@ -54,10 +54,10 @@ char	*ft_get_text(int fd, char *read_text, int *bytes)
 			break ;
 	}
 	free(buffer);
-	if ((read_text && read_text[0] == '\0') || *bytes == -1)
+	if (read_text && read_text[0] == '\0')
 	{
 		free(read_text);
-		return (NULL);
+		read_text = NULL;
 	}
 	return (read_text);
 }
@@ -109,24 +109,28 @@ char	*ft_remaining_text(char *read_text)
 
 char	*get_next_line(int fd)
 {
-	static char	*read_text;
+	static char	*read_text[MAX_FDS];
 	char		*line;
 	int			bytes;
 
-	bytes = read(fd, 0, 0);
-	if (bytes == -1 || BUFFER_SIZE <= 0)
-		return (NULL);
-	if (!read_text)
+	if (read(fd, 0, 0) || BUFFER_SIZE <= 0)
 	{
-		read_text = (char *)ft_calloc(1, sizeof(char));
-		read_text[0] = '\0';
+		free(read_text[fd]);
+		read_text[fd] = NULL;
+		return (read_text[fd]);
+	}
+	if (!read_text[fd])
+	{
+		read_text[fd] = (char *)ft_calloc(1, sizeof(char));
+		if (!read_text[fd])
+			return (NULL);
+		read_text[fd][0] = '\0';
 	}
 	bytes = 1;
-	read_text = ft_get_text(fd, read_text, &bytes);
-	line = NULL;
-	if (!read_text)
+	read_text[fd] = ft_get_text(fd, read_text[fd], &bytes);
+	if (!read_text[fd])
 		return (NULL);
-	line = ft_get_line(read_text);
-	read_text = ft_remaining_text(read_text);
+	line = ft_get_line(read_text[fd]);
+	read_text[fd] = ft_remaining_text(read_text[fd]);
 	return (line);
 }
