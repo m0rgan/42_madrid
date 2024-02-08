@@ -6,7 +6,7 @@
 /*   By: migumore <migumore@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 20:02:43 by migumore          #+#    #+#             */
-/*   Updated: 2024/02/06 12:21:28 by migumore         ###   ########.fr       */
+/*   Updated: 2024/02/08 17:43:51 by migumore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,16 +21,16 @@
 # endif
 
 # ifndef MAX_FDS
-#  define MAX_FDS 100
+#  define MAX_FDS 1024
 # endif
 
-void	ft_bzero(void *s, size_t n);
-void	*ft_calloc(size_t count, size_t size);
+size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
 size_t	ft_strlen(const char *s);
 char	*ft_strjoin(char const *s1, char const *s2);
 char	*ft_strchr(const char *s, int c);
-size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
-char	*ft_get_text(int fd, char *read_text, int *bytes);
+char	*initialize_read_text(int fd, char **read_text);
+void	ft_read(int fd, char *buffer, char **read_text);
+char	*ft_get_text(int fd, char *read_text);
 char	*ft_get_line(char *read_text);
 char	*ft_remaining_text(char *read_text);
 char	*get_next_line(int fd);

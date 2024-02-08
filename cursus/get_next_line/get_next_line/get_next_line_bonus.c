@@ -6,58 +6,48 @@
 /*   By: migumore <migumore@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 19:53:11 by migumore          #+#    #+#             */
-/*   Updated: 2024/02/07 12:54:29 by migumore         ###   ########.fr       */
+/*   Updated: 2024/02/08 17:43:26 by migumore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line_bonus.h"
 
-size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
+void	ft_read(int fd, char *buffer, char **read_text)
 {
-	size_t	len;
-	size_t	i;
-
-	len = 0;
-	i = 0;
-	while (src[len])
-		len++;
-	if (dstsize > 0)
-	{
-		while (i < (dstsize - 1) && src[i])
-		{
-			dst[i] = src[i];
-			i++;
-		}
-		dst[i] = '\0';
-	}
-	return (len);
-}
-
-char	*ft_get_text(int fd, char *read_text, int *bytes)
-{
-	char	*buffer;
 	char	*temp;
+	int		bytes;
 
-	buffer = (char *)ft_calloc((BUFFER_SIZE + 1), sizeof(char));
-	if (!buffer)
-		return (NULL);
-	while (*bytes > 0)
+	bytes = 1;
+	while (bytes > 0)
 	{
-		*bytes = read(fd, buffer, BUFFER_SIZE);
-		if (*bytes == -1 || *bytes == 0)
+		bytes = read(fd, buffer, BUFFER_SIZE);
+		if (bytes == -1 || bytes == 0)
 			break ;
-		buffer[*bytes] = '\0';
-		temp = ft_strjoin(read_text, buffer);
-		free(read_text);
-		read_text = temp;
+		buffer[bytes] = '\0';
+		temp = ft_strjoin(*read_text, buffer);
+		free(*read_text);
+		*read_text = temp;
 		if (ft_strchr(buffer, '\n'))
 			break ;
 	}
+}
+
+char	*ft_get_text(int fd, char *read_text)
+{
+	char	*buffer;
+
+	buffer = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
+	if (!buffer)
+	{
+		free(read_text);
+		return (NULL);
+	}
+	ft_read(fd, buffer, &read_text);
 	free(buffer);
 	if (read_text && read_text[0] == '\0')
 	{
 		free(read_text);
-		read_text = NULL;
+		return (NULL);
 	}
 	return (read_text);
 }
@@ -74,9 +64,12 @@ char	*ft_get_line(char *read_text)
 		i++;
 	if (read_text[i] == '\n')
 		i++;
-	line = (char *)ft_calloc((i + 1), sizeof(char));
+	line = (char *)malloc((i + 1) * sizeof(char));
 	if (!line)
+	{
+		free(read_text);
 		return (NULL);
+	}
 	ft_strlcpy(line, read_text, (i + 1));
 	return (line);
 }
@@ -95,9 +88,12 @@ char	*ft_remaining_text(char *read_text)
 		free(read_text);
 		return (NULL);
 	}
-	remaining = (char *)ft_calloc((ft_strlen(read_text) - i), sizeof(char));
+	remaining = (char *)malloc((ft_strlen(read_text) - i) * sizeof(char));
 	if (!remaining)
+	{
+		free(read_text);
 		return (NULL);
+	}
 	i++;
 	j = 0;
 	while (read_text[i])
@@ -111,26 +107,27 @@ char	*get_next_line(int fd)
 {
 	static char	*read_text[MAX_FDS];
 	char		*line;
-	int			bytes;
 
-	if (read(fd, 0, 0) || BUFFER_SIZE <= 0)
+	if (fd < 0 || BUFFER_SIZE <= 0 || fd >= MAX_FDS)
+		return (NULL);
+	if (read(fd, 0, 0))
 	{
 		free(read_text[fd]);
 		read_text[fd] = NULL;
-		return (read_text[fd]);
+		return (NULL);
 	}
+	read_text[fd] = initialize_read_text(fd, read_text);
 	if (!read_text[fd])
-	{
-		read_text[fd] = (char *)ft_calloc(1, sizeof(char));
-		if (!read_text[fd])
-			return (NULL);
-		read_text[fd][0] = '\0';
-	}
-	bytes = 1;
-	read_text[fd] = ft_get_text(fd, read_text[fd], &bytes);
+		return (NULL);
+	read_text[fd] = ft_get_text(fd, read_text[fd]);
 	if (!read_text[fd])
 		return (NULL);
 	line = ft_get_line(read_text[fd]);
+	if (!line)
+	{
+		read_text[fd] = NULL;
+		return (NULL);
+	}
 	read_text[fd] = ft_remaining_text(read_text[fd]);
 	return (line);
 }
