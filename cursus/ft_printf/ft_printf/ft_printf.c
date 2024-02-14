@@ -6,47 +6,56 @@
 /*   By: migumore <migumore@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 12:32:56 by migumore          #+#    #+#             */
-/*   Updated: 2024/02/13 16:13:22 by migumore         ###   ########.fr       */
+/*   Updated: 2024/02/14 16:26:09 by migumore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-void	ft_check_format(char format, va_list args)
+int	ft_check_format(char format, va_list args)
 {
+	int	i;
+
+	i = 0;
 	if (format == 'c')
-		ft_putchar(va_arg(args, int));
+		i += ft_putchar(va_arg(args, int));
 	else if (format == 's')
-		ft_putstr(va_arg(args, char *));
+		i += ft_putstr(va_arg(args, char *));
 	else if (format == 'p')
-		ft_putstr(va_arg(args, char *));
+	{
+		i += ft_putstr("0x");
+		i += ft_putnbr_base(va_arg(args, unsigned long), "0123456789abcdef");
+	}
 	else if (format == 'd' || format == 'i')
-		ft_putnbr(va_arg(args, int));
+		i += ft_putnbr(va_arg(args, int));
 	else if (format == 'u')
-		ft_putnbr(va_arg(args, unsigned int));
+		i += ft_putunbr(va_arg(args, unsigned int));
 	else if (format == 'x')
-		ft_putnbr_base(va_arg(args, unsigned int), "0123456789abcdef");
+		i += ft_putnbr_base(va_arg(args, unsigned int), "0123456789abcdef");
 	else if (format == 'X')
-		ft_putnbr_base(va_arg(args, unsigned int), "0123456789ABCDEF");
+		i += ft_putnbr_base(va_arg(args, unsigned int), "0123456789ABCDEF");
 	else if (format == '%')
-		ft_putchar('%');
+		i += ft_putchar('%');
+	return (i);
 }
 
 int	ft_format(const char *format, va_list args)
 {
-	int		count;
+	int	i;
+	int	count;
 
+	i = 0;
 	count = 0;
-	while (format[count] != '\0')
+	while (*(format + i))
 	{
-		if (format[count] == '%')
+		if (*(format + i) == '%' && *(format + i + 1) != '\0')
 		{
-			count++;
-			ft_check_format(format[count], args);
+			i++;
+			count += ft_check_format(*(format + i), args);
 		}
-		else
-			ft_putchar(format[count]);
-		count++;
+		else if (*(format + i) != '%')
+			count += ft_putchar(*(format + i));
+		i++;
 	}
 	return (count);
 }

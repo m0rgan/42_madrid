@@ -1,28 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.h                                        :+:      :+:    :+:   */
+/*   main_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: migumore <migumore@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/13 12:34:37 by migumore          #+#    #+#             */
-/*   Updated: 2024/02/14 13:30:34 by migumore         ###   ########.fr       */
+/*   Created: 2024/02/14 14:35:24 by migumore          #+#    #+#             */
+/*   Updated: 2024/02/14 14:47:26 by migumore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_PRINTF_H
-# define FT_PRINTF_H
-# include <stdlib.h>
-# include <unistd.h>
-# include <stdarg.h>
+#include <stdio.h>
 
-int	ft_putchar(char c);
-int	ft_putstr(char *s);
-int	ft_putnbr(int n);
-int	ft_putunbr(unsigned int n);
-int	ft_putnbr_base(unsigned long nbr, char *base);
-int	ft_check_format(char format, va_list args);
-int	ft_format(const char *format, va_list args);
-int	ft_printf(const char *format, ...);
+int	main(void)
+{
+	double	pi;
 
-#endif
+	pi = 3.14159;
+    // Left justify with zero padding and precision
+	printf("Left justified with zero padding: %-010.2f\n", pi);
+    // Right justified (default) with precision
+	printf("Right justified with precision: %0.2f\n", pi);
+	return (0);
+}
