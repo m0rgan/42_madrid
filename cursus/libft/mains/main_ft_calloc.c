@@ -1,25 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_calloc.c                                        :+:      :+:    :+:   */
+/*   main_ft_calloc.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: migumore <migumore@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/11 18:49:29 by migumore          #+#    #+#             */
-/*   Updated: 2024/02/14 16:54:53 by migumore         ###   ########.fr       */
+/*   Created: 2024/02/14 16:52:00 by migumore          #+#    #+#             */
+/*   Updated: 2024/02/14 16:52:21 by migumore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-
-void	*ft_calloc(size_t count, size_t size)
+int	main(void)
 {
-	void	*ptr;
+	char	*str;
+	char	*str2;
 
-	if (size != 0 && count > SIZE_MAX / size)
-		return (NULL);
-	ptr = malloc(count * size);
-	if (ptr != NULL)
-		ft_bzero(ptr, count * size);
-	return (ptr);
+	str = ft_calloc(SIZE_MAX, SIZE_MAX);
+	str2 = calloc(SIZE_MAX, SIZE_MAX);
+	printf("%p\n", str);
+	printf("%p\n", str2);
+	return (0);
 }
