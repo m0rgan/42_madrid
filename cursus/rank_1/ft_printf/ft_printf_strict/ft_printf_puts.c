@@ -6,7 +6,7 @@
 /*   By: migumore <migumore@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 12:32:56 by migumore          #+#    #+#             */
-/*   Updated: 2024/02/16 15:22:32 by migumore         ###   ########.fr       */
+/*   Updated: 2024/02/16 17:41:12 by migumore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,25 +79,29 @@ int	ft_putunbr(unsigned int n)
 	return (i);
 }
 
-int	ft_putnbr_base(unsigned long nbr, char *base)
+int	ft_putnbr_base(unsigned long nbr, char *base, int result)
 {
 	unsigned long	len_base;
-	int				i;
 
 	len_base = 0;
-	i = 0;
+	if (result == -1)
+		return (-1);
 	while (base[len_base])
 		len_base++;
 	if (nbr >= len_base)
 	{
-		i += ft_putnbr_base(nbr / len_base, base);
-		i += ft_putnbr_base(nbr % len_base, base);
+		result = ft_putnbr_base(nbr / len_base, base, result);
+		if (result == -1)
+			return (-1);
+		result = ft_putnbr_base(nbr % len_base, base, result);
+		if (result == -1)
+			return (-1);
 	}
 	else
 	{
 		if (ft_putchar(base[nbr]) == -1)
 			return (-1);
-		i++;
+		result++;
 	}
-	return (i);
+	return (result);
 }

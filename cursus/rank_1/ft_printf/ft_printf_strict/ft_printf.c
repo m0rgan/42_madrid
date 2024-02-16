@@ -6,7 +6,7 @@
 /*   By: migumore <migumore@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 12:32:56 by migumore          #+#    #+#             */
-/*   Updated: 2024/02/16 12:45:23 by migumore         ###   ########.fr       */
+/*   Updated: 2024/02/16 17:16:42 by migumore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	ft_pointer_case(unsigned long p)
 	int	hex;
 
 	str = ft_putstr("0x");
-	hex = ft_putnbr_base(p, "0123456789abcdef");
+	hex = ft_putnbr_base(p, "0123456789abcdef", 0);
 	if (str == -1)
 		return (-1);
 	if (hex == -1)
@@ -28,6 +28,11 @@ int	ft_pointer_case(unsigned long p)
 
 int	ft_check_format(char format, va_list args)
 {
+	char	*hex_low;
+	char	*hex_up;
+
+	hex_low = "0123456789abcdef";
+	hex_up = "0123456789ABCDEF";
 	if (format == 'c')
 		return (ft_putchar(va_arg(args, int)));
 	else if (format == 's')
@@ -39,9 +44,9 @@ int	ft_check_format(char format, va_list args)
 	else if (format == 'u')
 		return (ft_putunbr(va_arg(args, unsigned int)));
 	else if (format == 'x')
-		return (ft_putnbr_base(va_arg(args, unsigned int), "0123456789abcdef"));
+		return (ft_putnbr_base(va_arg(args, unsigned int), hex_low, 0));
 	else if (format == 'X')
-		return (ft_putnbr_base(va_arg(args, unsigned int), "0123456789ABCDEF"));
+		return (ft_putnbr_base(va_arg(args, unsigned int), hex_up, 0));
 	else if (format == '%')
 		return (ft_putchar('%'));
 	return (-1);
