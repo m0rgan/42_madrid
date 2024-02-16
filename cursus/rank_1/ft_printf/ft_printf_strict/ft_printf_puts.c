@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf_utils.c                                  :+:      :+:    :+:   */
+/*   ft_printf_puts.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: migumore <migumore@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 12:32:56 by migumore          #+#    #+#             */
-/*   Updated: 2024/02/15 19:47:13 by migumore         ###   ########.fr       */
+/*   Updated: 2024/02/16 15:22:32 by migumore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,7 @@
 
 int	ft_putchar(char c)
 {
-	if (write(1, &c, 1) == -1)
-		return (-1);
-	return (1);
+	return (write(1, &c, 1));
 }
 
 int	ft_putstr(char *s)
@@ -39,7 +37,7 @@ int	ft_putstr(char *s)
 
 int	ft_putnbr(int n)
 {
-	int		i;
+	int	i;
 
 	i = 0;
 	if (n == -2147483648)
@@ -57,22 +55,24 @@ int	ft_putnbr(int n)
 			n = -n;
 			i++;
 		}
-		if (n > 9)
-			i += ft_putnbr(n / 10);
-		if (ft_putchar(n % 10 + '0') == -1)
-			return (-1);
-		i++;
-		return (i);
+		return (ft_putunbr(n) + i);
 	}
 }
 
 int	ft_putunbr(unsigned int n)
 {
-	int		i;
+	int	i;
+	int	result;
 
 	i = 0;
+	result = 0;
 	if (n > 9)
-		i += ft_putunbr(n / 10);
+	{
+		result = ft_putnbr(n / 10);
+		if (result == -1)
+			return (-1);
+		i += result;
+	}
 	if (ft_putchar(n % 10 + '0') == -1)
 		return (-1);
 	i++;

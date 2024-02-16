@@ -6,7 +6,7 @@
 /*   By: migumore <migumore@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 12:32:56 by migumore          #+#    #+#             */
-/*   Updated: 2024/02/15 22:13:33 by migumore         ###   ########.fr       */
+/*   Updated: 2024/02/16 12:45:23 by migumore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ int	ft_format(const char *format, va_list args)
 	int	count;
 
 	i = 0;
+	count = 0;
 	while (*(format + i))
 	{
 		if (*(format + i) == '%' && *(format + i + 1) != '\0')
