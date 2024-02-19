@@ -6,7 +6,7 @@
 /*   By: migumore <migumore@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 12:32:56 by migumore          #+#    #+#             */
-/*   Updated: 2024/02/16 17:41:12 by migumore         ###   ########.fr       */
+/*   Updated: 2024/02/19 11:10:13 by migumore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int	ft_putunbr(unsigned int n)
 	result = 0;
 	if (n > 9)
 	{
-		result = ft_putnbr(n / 10);
+		result = ft_putunbr(n / 10);
 		if (result == -1)
 			return (-1);
 		i += result;
