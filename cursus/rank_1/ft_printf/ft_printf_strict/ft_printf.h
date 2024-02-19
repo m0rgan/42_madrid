@@ -6,7 +6,7 @@
 /*   By: migumore <migumore@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 12:34:37 by migumore          #+#    #+#             */
-/*   Updated: 2024/02/16 16:46:15 by migumore         ###   ########.fr       */
+/*   Updated: 2024/02/19 10:32:53 by migumore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	ft_putunbr(unsigned int n);
 int	ft_putnbr_base(unsigned long nbr, char *base, int result);
 int	ft_pointer_case(unsigned long p);
 int	ft_check_format(char format, va_list args);
-int	ft_format(const char *format, va_list args);
+int	ft_format(const char *format, va_list args, int *i);
 int	ft_printf(const char *format, ...);
 
 #endif

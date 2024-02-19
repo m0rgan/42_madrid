@@ -6,7 +6,7 @@
 /*   By: migumore <migumore@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 12:32:56 by migumore          #+#    #+#             */
-/*   Updated: 2024/02/16 17:16:42 by migumore         ###   ########.fr       */
+/*   Updated: 2024/02/19 11:00:57 by migumore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@ int	ft_pointer_case(unsigned long p)
 	int	hex;
 
 	str = ft_putstr("0x");
-	hex = ft_putnbr_base(p, "0123456789abcdef", 0);
 	if (str == -1)
 		return (-1);
+	hex = ft_putnbr_base(p, "0123456789abcdef", 0);
 	if (hex == -1)
 		return (-1);
 	return (str + hex);
@@ -52,33 +52,28 @@ int	ft_check_format(char format, va_list args)
 	return (-1);
 }
 
-int	ft_format(const char *format, va_list args)
+int	ft_format(const char *format, va_list args, int *i)
 {
-	int	i;
 	int	result;
 	int	count;
 
-	i = 0;
 	count = 0;
-	while (*(format + i))
+	if (*(format + *i) == '%' && *(format + *i + 1) != '\0')
 	{
-		if (*(format + i) == '%' && *(format + i + 1) != '\0')
-		{
-			i++;
-			result = ft_check_format(*(format + i), args);
-			if (result == -1)
-				return (-1);
-			count += result;
-		}
-		else if (*(format + i) != '%')
-		{
-			result = ft_putchar(*(format + i));
-			if (result == -1)
-				return (-1);
-			count += result;
-		}
-		i++;
+		(*i)++;
+		result = ft_check_format(*(format + *i), args);
+		if (result == -1)
+			return (-1);
+		count += result;
 	}
+	else if (*(format + *i) != '%')
+	{
+		result = ft_putchar(*(format + *i));
+		if (result == -1)
+			return (-1);
+		count += result;
+	}
+	(*i)++;
 	return (count);
 }
 
@@ -86,9 +81,27 @@ int	ft_printf(const char *format, ...)
 {
 	va_list	args;
 	int		count;
+	int		i;
+	int		result;
 
 	va_start(args, format);
-	count = ft_format(format, args);
+	i = 0;
+	count = 0;
+	if (!format)
+		count = 0;
+	else
+	{
+		while (*(format + i))
+		{
+			result = ft_format(format, args, &i);
+			if (result == -1)
+			{
+				va_end(args);
+				return (-1);
+			}
+			count += result;
+		}
+	}
 	va_end(args);
 	return (count);
 }
