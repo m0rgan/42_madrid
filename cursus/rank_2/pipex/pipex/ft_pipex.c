@@ -6,7 +6,7 @@
 /*   By: migumore <migumore@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 15:38:30 by migumore          #+#    #+#             */
-/*   Updated: 2024/02/20 17:00:06 by migumore         ###   ########.fr       */
+/*   Updated: 2024/02/21 18:16:12 by migumore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ void	parse_args(int argc, char *argv[], t_pipex *data)
 {
 	if (argc != 5)
 	{
-		fprintf(stderr, "Usage: %s file1 cmd1 cmd2 file2\n", argv[0]);
-		exit(0);
+		ft_printf("Error!\nUsage is: %s file1 cmd1 cmd2 file2\n", argv[0]);
+		exit(1);
 	}
 	data->file1 = argv[1];
 	data->cmd1 = argv[2];
