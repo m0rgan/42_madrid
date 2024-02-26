@@ -10,10 +10,10 @@ $(NAME): $(SOURCE:.c=.o)
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
-.PHONY: clean fclean re all bonus
+.PHONY: clean fclean re all
 
 clean:
-	@rm -f $(SOURCE:.c=.o) $(BONUS:.c=.o)
+	@rm -f $(SOURCE:.c=.o)
 
 fclean: clean
 	@rm -f $(NAME)
