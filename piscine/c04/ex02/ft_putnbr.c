@@ -6,7 +6,7 @@
 /*   By: migumore <migumore@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/21 16:14:07 by migumore          #+#    #+#             */
-/*   Updated: 2023/11/21 16:17:42 by migumore         ###   ########.fr       */
+/*   Updated: 2024/02/22 15:51:31 by migumore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,12 @@ void	ft_putnbr(int nb)
 	char	d;
 
 	if (nb == INT_MIN)
-	{
 		write(1, "-2147483648", 11);
-	}
 	else
 	{
 		if (nb < 0)
 		{
-			d = '-';
-			write(1, &d, 1);
+			write(1, "-", 1);
 			nb = -nb;
 		}
 		if (nb > 9)
