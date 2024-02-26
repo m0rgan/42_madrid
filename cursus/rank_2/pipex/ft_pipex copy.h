@@ -6,7 +6,7 @@
 /*   By: migumore <migumore@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 16:16:51 by migumore          #+#    #+#             */
-/*   Updated: 2024/02/26 18:14:21 by migumore         ###   ########.fr       */
+/*   Updated: 2024/02/26 17:14:39 by migumore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,10 @@ typedef struct s_pipex
 	char	*cmd1;
 	char	*cmd2;
 	char	*file2;
-	pid_t	pid;
+	int		pipefd[2];
+	pid_t	pid1;
+	pid_t	pid2;
 	int		temp_fd;
-	int		status;
 }	t_pipex;
 
 #endif

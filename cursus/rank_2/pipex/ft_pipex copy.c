@@ -6,7 +6,7 @@
 /*   By: migumore <migumore@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 15:38:30 by migumore          #+#    #+#             */
-/*   Updated: 2024/02/26 18:17:50 by migumore         ###   ########.fr       */
+/*   Updated: 2024/02/26 16:17:15 by migumore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,10 @@ void	parse_args(int argc, char *argv[], t_pipex *data)
 		perror("Error!\nUsage is: ./executable file1 cmd1 cmd2 file2\n");
 		exit(1);
 	}
-	else
-	{
-		data->file1 = argv[1];
-		data->cmd1 = argv[2];
-		data->cmd2 = argv[3];
-		data->file2 = argv[4];
-	}
+	data->file1 = argv[1];
+	data->cmd1 = argv[2];
+	data->cmd2 = argv[3];
+	data->file2 = argv[4];
 }
 
 void	check_file1(t_pipex *data)
@@ -42,54 +39,69 @@ void	check_file1(t_pipex *data)
 	}
 }
 
-size_t	ft_strlen(const char *s)
+void	setup_and_fork_first_child(t_pipex *data)
 {
-	size_t	count;
+	char	*args1[2];
 
-	count = 0;
-	while (s[count])
-		count++;
-	return (count);
-}
-
-void	execute_script(t_pipex *data)
-{
-	data->pid = fork();
-	if (data->pid == -1)
+	if (pipe(data->pipefd) == -1)
 	{
-		unlink("temp.sh");
-		perror("fork failed");
+		perror("pipe");
 		exit(1);
 	}
-	if (data->pid == 0)
+	data->pid1 = fork();
+	if (data->pid1 == -1)
 	{
-		if (execve("temp.sh", NULL, NULL) == -1)
+		perror("fork");
+		exit(1);
+	}
+	if (data->pid1 == 0)
+	{
+		close(data->pipefd[0]);
+		dup2(data->pipefd[1], STDOUT_FILENO);
+		close(data->pipefd[1]);
+		args1[0] = data->cmd2;
+		args1[1] = NULL;
+		execve(data->cmd1, args1, NULL);
+		perror("execve");
+		exit(1);
+	}
+}
+
+void	setup_and_fork_second_child(t_pipex *data)
+{
+	char	*args2[2];
+
+	data->pid2 = fork();
+	if (data->pid2 == -1)
+	{
+		perror("fork");
+		exit(1);
+	}
+	if (data->pid2 == 0)
+	{
+		close(data->pipefd[1]);
+		dup2(data->pipefd[0], STDIN_FILENO);
+		close(data->pipefd[0]);
+		data->fd = open(data->file2, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		if (data->fd == -1)
 		{
-			unlink("temp.sh");
-			perror("execve failed");
+			perror("open");
 			exit(1);
 		}
+		dup2(data->fd, STDOUT_FILENO);
+		close(data->fd);
+		args2[0] = data->cmd2;
+		args2[1] = NULL;
+		execve(data->cmd2, args2, NULL);
+		perror("execve");
+		exit(1);
 	}
 	else
 	{
-		waitpid(data->pid, &data->status, 0);
-		unlink("temp.sh");
+		close(data->pipefd[0]);
+		close(data->pipefd[1]);
+		waitpid(data->pid2, NULL, 0);
 	}
-}
-
-void	script_file(t_pipex *data)
-{
-	data->temp_fd = open("temp.sh", O_CREAT | O_WRONLY | O_TRUNC, 0744);
-	write(data->temp_fd, "#!/bin/bash\n<", 13);
-	write(data->temp_fd, data->file1, ft_strlen(data->file1));
-	write(data->temp_fd, " ", 1);
-	write(data->temp_fd, data->cmd1, ft_strlen(data->cmd1));
-	write(data->temp_fd, " | ", 3);
-	write(data->temp_fd, data->cmd2, ft_strlen(data->cmd2));
-	write(data->temp_fd, " >", 2);
-	write(data->temp_fd, data->file2, ft_strlen(data->file2));
-	close(data->temp_fd);
-	execute_script(data);
 }
 
 int	main(int argc, char *argv[])
@@ -97,7 +109,9 @@ int	main(int argc, char *argv[])
 	t_pipex	data;
 
 	parse_args(argc, argv, &data);
-	check_file1(&data);
-	script_file(&data);
+	check_files(&data);
+	setup_and_fork_first_child(&data);
+	setup_and_fork_second_child(&data);
+	waitpid(data.pid1, NULL, 0);
 	return (0);
 }
