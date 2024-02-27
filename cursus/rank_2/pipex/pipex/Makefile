@@ -1,6 +1,6 @@
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
-SOURCE = ft_pipex.c
+SOURCE = ft_pipex.c waits.c
 NAME = pipex
 
 $(NAME): $(SOURCE:.c=.o)
