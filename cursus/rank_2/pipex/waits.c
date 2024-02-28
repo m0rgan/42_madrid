@@ -6,7 +6,7 @@
 /*   By: migumore <migumore@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 17:29:55 by migumore          #+#    #+#             */
-/*   Updated: 2024/02/27 17:37:36 by migumore         ###   ########.fr       */
+/*   Updated: 2024/02/28 13:07:52 by migumore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,4 +37,26 @@ void	parent2_waits(t_pipex *data)
 		exit(1);
 	}
 	exit(0);
+}
+
+void	cmd_to_outfile(t_pipex *data)
+{
+	data->pid2 = fork();
+	if (data->pid2 == -1)
+	{
+		perror("fork error\n");
+		exit(1);
+	}
+	if (data->pid2 == 0)
+	{
+		dup2(data->fd_file2, STDOUT_FILENO);
+		close(data->fd_file2);
+		data->args[0] = data->file2;
+		data->args[1] = NULL;
+		execve(data->cmd2, data->args, NULL);
+		perror("execve");
+		exit(1);
+	}
+	else
+		parent2_waits(data);
 }
