@@ -6,7 +6,7 @@
 /*   By: migumore <migumore@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 15:41:17 by migumore          #+#    #+#             */
-/*   Updated: 2024/01/19 13:50:19 by migumore         ###   ########.fr       */
+/*   Updated: 2024/02/29 13:14:35 by migumore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 	char			*new_s;
 	unsigned int	i;
 
+	if (!s || !f)
+		return (NULL);
 	new_s = malloc(ft_strlen(s) + 1);
 	if (new_s == NULL)
 		return (NULL);

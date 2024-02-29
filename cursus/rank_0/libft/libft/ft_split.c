@@ -6,7 +6,7 @@
 /*   By: migumore <migumore@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 14:15:52 by migumore          #+#    #+#             */
-/*   Updated: 2024/01/23 18:38:43 by migumore         ###   ########.fr       */
+/*   Updated: 2024/02/29 13:14:22 by migumore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,8 @@ char	**ft_split(char const *s, char c)
 	char	**array_s;
 	size_t	words;
 
+	if (!s)
+		return (NULL);
 	words = ft_count_words(s, c);
 	array_s = malloc(sizeof(char *) * (words + 1));
 	if (array_s == NULL)
