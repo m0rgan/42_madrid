@@ -6,7 +6,7 @@
 /*   By: migumore <migumore@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 16:16:51 by migumore          #+#    #+#             */
-/*   Updated: 2024/02/28 18:00:47 by migumore         ###   ########.fr       */
+/*   Updated: 2024/02/29 18:18:42 by migumore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,23 +25,26 @@ typedef struct s_pipex
 	char	*cmd1;
 	char	*cmd2;
 	char	*file2;
-	char	*path_envp;
 	int		fd_file1;
 	int		fd_file2;
 	int		pipefd[2];
 	pid_t	pid1;
 	pid_t	pid2;
-	char	*args[2];
+	char	*path_envp;
+	char	**path;
+	char	*cmd;
+	char	**args;
 	int		status;
 }	t_pipex;
 
-void	pipex(t_pipex *data);
-void	pid1_process(t_pipex *data);
-void	pid2_process(t_pipex *data);
 void	parse_argv(int argc, char *argv[], t_pipex *data);
-char	*ft_substr(char const *s, unsigned int start, size_t len);
-size_t	ft_strlen(const char *s);
 void	check_file1(t_pipex *data);
-char	**split(char const *s, char c);
+char	*find_path(char *envp[]);
+char	*get_cmd(char **path, char *cmd);
+char	**ft_split(char const *s, char c);
+char	*ft_strjoin(char const *s1, char const *s2);
+size_t	ft_strlen(const char *s);
+int		ft_strncmp(const char *s1, const char *s2, size_t n);
+char	*ft_substr(char const *s, unsigned int start, size_t len);
 
 #endif

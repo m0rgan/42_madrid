@@ -6,50 +6,17 @@
 /*   By: migumore <migumore@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 12:53:48 by migumore          #+#    #+#             */
-/*   Updated: 2024/02/28 12:57:40 by migumore         ###   ########.fr       */
+/*   Updated: 2024/02/29 18:26:59 by migumore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_pipex.h"
 
-size_t	ft_strlen(const char *s)
-{
-	size_t	count;
-
-	count = 0;
-	while (s[count])
-		count++;
-	return (count);
-}
-
-char	*ft_substr(char const *s, unsigned int start, size_t len)
-{
-	char	*sub_s;
-	size_t	i;
-
-	if (start >= ft_strlen(s))
-		len = 0;
-	else if (ft_strlen(s + start) < len)
-		len = ft_strlen(s + start);
-	sub_s = (char *)malloc(sizeof(char) * (len + 1));
-	if (sub_s == NULL)
-		return (NULL);
-	i = 0;
-	while (i < len)
-	{
-		sub_s[i] = s[start];
-		i++;
-		start++;
-	}
-	sub_s[i] = '\0';
-	return (sub_s);
-}
-
 void	parse_argv(int argc, char *argv[], t_pipex *data)
 {
 	if (argc != 5)
 	{
-		perror("Error!\nUsage is: ./executable file1 cmd1 cmd2 file2\n");
+		perror("Usage is: ./executable file1 cmd1 cmd2 file2");
 		exit(1);
 	}
 	data->file1 = argv[1];
@@ -62,7 +29,41 @@ void	check_file1(t_pipex *data)
 {
 	if (access(data->file1, F_OK) == -1)
 	{
-		perror("Error!\nFile 1 does not exist\n");
-		exit(1);
+		perror("file1");
+		exit(0);
 	}
+}
+
+char	*find_path(char *envp[])
+{
+	int	i;
+
+	i = 0;
+	while (envp[i])
+	{
+		if (ft_strncmp(envp[i], "PATH=", 5) == 0)
+			return (envp[i] + 5);
+		i++;
+	}
+	return (NULL);
+}
+
+char	*get_cmd(char **path, char *cmd)
+{
+	int		i;
+	char	*temp;
+	char	*cmd_path;
+
+	i = 0;
+	while (path[i])
+	{
+		temp = ft_strjoin(path[i], "/");
+		cmd_path = ft_strjoin(temp, cmd);
+		free(temp);
+		if (access(cmd_path, 0) == 0)
+			return (cmd_path);
+		free(cmd_path);
+		i++;
+	}
+	return (NULL);
 }

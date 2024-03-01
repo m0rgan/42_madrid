@@ -1,6 +1,12 @@
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
-SOURCE = ft_pipex.c ft_pipex_utils.c ft_split.c
+SOURCE = ft_pipex_utils.c \
+		ft_pipex.c \
+		ft_split.c \
+		ft_strjoin.c \
+		ft_strlen.c \
+		ft_strncmp.c \
+		ft_substr.c
 NAME = pipex
 
 $(NAME): $(SOURCE:.c=.o)

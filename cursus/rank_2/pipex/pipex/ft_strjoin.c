@@ -1,33 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_pipex.h                                         :+:      :+:    :+:   */
+/*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: migumore <migumore@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/20 16:16:51 by migumore          #+#    #+#             */
-/*   Updated: 2024/02/27 14:39:45 by migumore         ###   ########.fr       */
+/*   Created: 2024/01/12 15:17:13 by migumore          #+#    #+#             */
+/*   Updated: 2024/02/29 16:17:49 by migumore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_PIPEX_H
-# define FT_PIPEX_H
-# include <stdio.h>
-# include <stdlib.h>
-# include <unistd.h>
-# include <cstring.h>
-# include <sys/wait.h>
-# include <fcntl.h>
+#include "ft_pipex.h"
 
-typedef struct s_pipex
+char	*ft_strjoin(char const *s1, char const *s2)
 {
-	char	*file1;
-	char	*cmd1;
-	char	*cmd2;
-	char	*file2;
-	pid_t	pid;
-	int		temp_fd;
-	int		status;
-}	t_pipex;
+	char	*new_s;
+	size_t	i;
+	size_t	j;
 
-#endif
+	if (s1 && s2)
+	{
+		new_s = (char *)malloc((ft_strlen(s1) + ft_strlen(s2) + 1) * 1);
+		if (new_s == NULL)
+			return (NULL);
+		i = 0;
+		j = 0;
+		while (s1[i])
+			new_s[j++] = s1[i++];
+		j = 0;
+		while (s2[j])
+			new_s[i++] = s2[j++];
+		new_s[i] = '\0';
+		return (new_s);
+	}
+	return (NULL);
+}
