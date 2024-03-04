@@ -6,12 +6,11 @@
 /*   By: migumore <migumore@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 23:47:13 by migumore          #+#    #+#             */
-/*   Updated: 2024/03/02 01:20:56 by migumore         ###   ########.fr       */
+/*   Updated: 2024/03/04 16:18:03 by migumore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_pipex.h"
-#include <string.h>
+#include "utils.h"
 
 static void	process_quotes(t_pipex *data)
 {
@@ -47,7 +46,7 @@ static int	process(t_pipex *data)
 	return (0);
 }
 
-char	**split_command(const char *command, t_pipex *data)
+char	**ft_split_command(const char *command, t_pipex *data)
 {
 	data->cap = 10;
 	data->size = 0;

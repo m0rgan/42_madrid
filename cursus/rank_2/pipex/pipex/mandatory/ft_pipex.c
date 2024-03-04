@@ -6,11 +6,24 @@
 /*   By: migumore <migumore@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 15:38:30 by migumore          #+#    #+#             */
-/*   Updated: 2024/03/03 15:50:34 by migumore         ###   ########.fr       */
+/*   Updated: 2024/03/04 15:39:20 by migumore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_pipex.h"
+
+void	parse_argv(int argc, char *argv[], t_pipex *data)
+{
+	if (argc != 5)
+	{
+		perror("Usage is: ./executable file1 cmd1 cmd2 file2");
+		exit(127);
+	}
+	data->file1 = argv[1];
+	data->cmd1 = argv[2];
+	data->cmd2 = argv[3];
+	data->file2 = argv[4];
+}
 
 void	pid2_process(t_pipex *data, char *envp[])
 {
@@ -79,17 +92,11 @@ void	pipex(t_pipex *data, char *envp[])
 	waitpid(data->pid2, &data->status, 0);
 }
 
-void	c_leaks(void)
-{
-	system("leaks pipex");
-}
-
 int	main(int argc, char *argv[], char *envp[])
 {
 	t_pipex	data;
 	int		i;
 
-	atexit(c_leaks);
 	parse_argv(argc, argv, &data);
 	data.path_envp = find_path(envp);
 	data.path = ft_split(data.path_envp, ':');

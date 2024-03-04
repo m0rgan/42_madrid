@@ -1,37 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strjoin.c                                       :+:      :+:    :+:   */
+/*   ft_strlcat.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: migumore <migumore@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/12 15:17:13 by migumore          #+#    #+#             */
-/*   Updated: 2024/02/29 16:17:49 by migumore         ###   ########.fr       */
+/*   Created: 2024/01/10 14:54:51 by migumore          #+#    #+#             */
+/*   Updated: 2024/01/18 13:54:49 by migumore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_pipex.h"
+#include "libft.h"
 
-char	*ft_strjoin(char const *s1, char const *s2)
+size_t	ft_strlcat(char *dst, const char *src, size_t dstsize)
 {
-	char	*new_s;
+	size_t	len_dst;
+	size_t	len_src;
 	size_t	i;
-	size_t	j;
 
-	if (s1 && s2)
+	len_dst = ft_strlen(dst);
+	len_src = ft_strlen(src);
+	i = len_dst;
+	if (dstsize == 0 || dstsize <= len_dst)
+		return (dstsize + len_src);
+	else
 	{
-		new_s = (char *)malloc((ft_strlen(s1) + ft_strlen(s2) + 1) * 1);
-		if (new_s == NULL)
-			return (NULL);
-		i = 0;
-		j = 0;
-		while (s1[i])
-			new_s[j++] = s1[i++];
-		j = 0;
-		while (s2[j])
-			new_s[i++] = s2[j++];
-		new_s[i] = '\0';
-		return (new_s);
+		while (i < dstsize - 1 && src[i - len_dst])
+		{
+			dst[i] = src[i - len_dst];
+			i++;
+		}
+		dst[i] = '\0';
 	}
-	return (NULL);
+	return (len_dst + len_src);
 }

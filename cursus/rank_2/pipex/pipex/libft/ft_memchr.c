@@ -1,29 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strncmp.c                                       :+:      :+:    :+:   */
+/*   ft_memchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: migumore <migumore@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/10 20:39:07 by migumore          #+#    #+#             */
-/*   Updated: 2024/02/29 15:49:27 by migumore         ###   ########.fr       */
+/*   Created: 2024/01/10 20:58:17 by migumore          #+#    #+#             */
+/*   Updated: 2024/01/19 13:37:15 by migumore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_pipex.h"
+#include "libft.h"
 
-int	ft_strncmp(const char *s1, const char *s2, size_t n)
+void	*ft_memchr(const void *s, int c, size_t n)
 {
-	size_t	i;
+	unsigned char	*cs;
+	unsigned char	*loc;
+	size_t			i;
 
+	cs = (unsigned char *)s;
+	loc = NULL;
 	i = 0;
-	while ((*s1 != '\0' || *s2 != '\0') && i < n)
+	while (i < n)
 	{
-		if ((*s1 < *s2) || (*s1 > *s2))
-			return ((unsigned char)*s1 - (unsigned char)*s2);
+		if (cs[i] == (unsigned char)c)
+		{
+			loc = &cs[i];
+			return (loc);
+		}
 		i++;
-		s1++;
-		s2++;
 	}
-	return (0);
+	return (loc);
 }

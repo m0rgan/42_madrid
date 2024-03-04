@@ -1,26 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strndup.c                                       :+:      :+:    :+:   */
+/*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: migumore <migumore@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/02 00:45:52 by migumore          #+#    #+#             */
-/*   Updated: 2024/03/02 00:51:21 by migumore         ###   ########.fr       */
+/*   Created: 2024/01/15 12:49:22 by migumore          #+#    #+#             */
+/*   Updated: 2024/02/07 11:18:35 by migumore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_pipex.h"
+#include "libft.h"
 
-char	*ft_strndup(const char *s, size_t n)
+void	ft_putnbr_fd(int n, int fd)
 {
-	size_t	len;
-	char	*new;
+	char	d;
 
-	len = ft_strnlen(s, n);
-	new = (char *)malloc(sizeof(char) * (len + 1));
-	if (!new)
-		return (NULL);
-	new[len] = '\0';
-	return (ft_memcpy(new, s, len));
+	if (n == -2147483648)
+		write(fd, "-2147483648", 11);
+	else
+	{
+		if (n < 0)
+		{
+			d = '-';
+			write(fd, &d, 1);
+			n = -n;
+		}
+		if (n > 9)
+			ft_putnbr_fd(n / 10, fd);
+		d = '0' + n % 10;
+		write(fd, &d, 1);
+	}
 }

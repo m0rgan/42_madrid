@@ -1,28 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_realloc.c                                       :+:      :+:    :+:   */
+/*   ft_memcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: migumore <migumore@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/02 00:21:16 by migumore          #+#    #+#             */
-/*   Updated: 2024/03/02 00:23:12 by migumore         ###   ########.fr       */
+/*   Created: 2024/01/10 11:34:17 by migumore          #+#    #+#             */
+/*   Updated: 2024/01/20 15:38:22 by migumore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_pipex.h"
+#include "libft.h"
 
-void	*ft_realloc(void *ptr, size_t original_size, size_t new_size)
+void	*ft_memcpy(void *dst, const void *src, size_t n)
 {
-	void	*new_ptr;
+	size_t	i;
 
-	new_ptr = malloc(new_size);
-	if (!new_ptr)
-		return (NULL);
-	if (ptr)
+	if (!dst && !src)
+		return (dst);
+	i = 0;
+	while (i < n)
 	{
-		ft_memcpy(new_ptr, ptr, original_size);
-		free(ptr);
+		((char *)dst)[i] = ((char *)src)[i];
+		i++;
 	}
-	return (new_ptr);
+	return (dst);
 }

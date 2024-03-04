@@ -6,7 +6,7 @@
 /*   By: migumore <migumore@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 12:53:48 by migumore          #+#    #+#             */
-/*   Updated: 2024/03/03 15:39:43 by migumore         ###   ########.fr       */
+/*   Updated: 2024/03/04 15:36:22 by migumore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,38 +60,4 @@ void	parse_argv(int argc, char *argv[], t_pipex *data)
 		data->num_commands = argc - 3;
 	}
 	num_commands(data, argv);
-}
-
-char	*find_path(char *envp[])
-{
-	int	i;
-
-	i = 0;
-	while (envp[i])
-	{
-		if (ft_strncmp(envp[i], "PATH=", 5) == 0)
-			return (envp[i] + 5);
-		i++;
-	}
-	return (NULL);
-}
-
-char	*get_cmd(char **path, char *cmd)
-{
-	int		i;
-	char	*temp;
-	char	*cmd_path;
-
-	i = 0;
-	while (path[i])
-	{
-		temp = ft_strjoin(path[i], "/");
-		cmd_path = ft_strjoin(temp, cmd);
-		free(temp);
-		if (access(cmd_path, 0) == 0)
-			return (cmd_path);
-		free(cmd_path);
-		i++;
-	}
-	return (NULL);
 }

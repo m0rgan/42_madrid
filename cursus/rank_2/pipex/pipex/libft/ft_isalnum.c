@@ -1,23 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   ft_isalnum.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: migumore <migumore@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/10 11:24:41 by migumore          #+#    #+#             */
-/*   Updated: 2024/01/10 11:24:41 by migumore         ###   ########.fr       */
+/*   Created: 2024/01/10 11:23:26 by migumore          #+#    #+#             */
+/*   Updated: 2024/01/10 11:23:26 by migumore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_pipex.h"
-
-size_t	ft_strlen(const char *s)
+int	ft_isalnum(int c)
 {
-	size_t	len;
-
-	len = 0;
-	while (s[len])
-		len++;
-	return (len);
+	if ((c < 'A' || c > 'Z') && (c < 'a' || c > 'z') && (c < '0' || c > '9'))
+		return (0);
+	return (1);
 }

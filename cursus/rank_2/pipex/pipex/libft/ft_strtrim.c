@@ -1,38 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_substr.c                                        :+:      :+:    :+:   */
+/*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: migumore <migumore@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/12 14:52:38 by migumore          #+#    #+#             */
-/*   Updated: 2024/02/29 16:02:45 by migumore         ###   ########.fr       */
+/*   Created: 2024/01/12 16:10:26 by migumore          #+#    #+#             */
+/*   Updated: 2024/02/29 13:13:56 by migumore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_pipex.h"
+#include "libft.h"
 
-char	*ft_substr(char const *s, unsigned int start, size_t len)
+char	*ft_strtrim(char const *s1, char const *set)
 {
-	char	*sub_s;
+	char	*new_s;
+	size_t	start;
+	size_t	end;
 	size_t	i;
 
-	if (!s)
+	if (!s1 || !set)
 		return (NULL);
-	if (start >= ft_strlen(s))
-		len = 0;
-	else if (ft_strlen(s + start) < len)
-		len = ft_strlen(s + start);
-	sub_s = malloc(sizeof(char) * (len + 1));
-	if (sub_s == NULL)
+	start = 0;
+	while (s1[start] && ft_strchr(set, s1[start]))
+		start++;
+	end = ft_strlen(s1);
+	while (start < end && ft_strchr(set, s1[end - 1]))
+		end--;
+	new_s = malloc(sizeof(char) * (end - start + 1));
+	if (new_s == NULL)
 		return (NULL);
 	i = 0;
-	while (i < len)
+	while (start < end)
 	{
-		sub_s[i] = s[start];
+		new_s[i] = s1[start];
 		i++;
 		start++;
 	}
-	sub_s[i] = '\0';
-	return (sub_s);
+	new_s[i] = '\0';
+	return (new_s);
 }
