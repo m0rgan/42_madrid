@@ -6,7 +6,7 @@
 /*   By: migumore <migumore@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 15:38:30 by migumore          #+#    #+#             */
-/*   Updated: 2024/03/01 20:01:37 by migumore         ###   ########.fr       */
+/*   Updated: 2024/03/03 15:50:34 by migumore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	pid2_process(t_pipex *data, char *envp[])
 	dup2(data->pipefd[0], STDIN_FILENO);
 	close(data->pipefd[1]);
 	close(data->fd_file2);
-	data->args = ft_split(data->cmd2, ' ');
+	data->args = split_command(data->cmd2, data);
 	data->cmd = get_cmd(data->path, data->args[0]);
 	execve(data->cmd, data->args, envp);
 	perror("execve cmd2");
@@ -36,14 +36,14 @@ void	pid1_process(t_pipex *data, char *envp[])
 	data->fd_file1 = open(data->file1, O_RDONLY);
 	if (data->fd_file1 < 0)
 	{
-		perror("Error!\nFile 1 is not readable");
-		exit(1);
+		perror("open file1");
+		exit(127);
 	}
 	dup2(data->fd_file1, STDIN_FILENO);
 	dup2(data->pipefd[1], STDOUT_FILENO);
 	close(data->pipefd[0]);
 	close(data->fd_file1);
-	data->args = ft_split(data->cmd1, ' ');
+	data->args = split_command(data->cmd1, data);
 	data->cmd = get_cmd(data->path, data->args[0]);
 	execve(data->cmd, data->args, envp);
 	perror("execve cmd1");
@@ -89,16 +89,14 @@ int	main(int argc, char *argv[], char *envp[])
 	t_pipex	data;
 	int		i;
 
-	i = 0;
 	atexit(c_leaks);
 	parse_argv(argc, argv, &data);
-	check_file1(&data);
 	data.path_envp = find_path(envp);
 	data.path = ft_split(data.path_envp, ':');
 	pipex(&data, envp);
+	i = 0;
 	while (data.path[i])
 		free(data.path[i++]);
 	free(data.path);
-	exit(data.status);
-	return (0);
+	return (WEXITSTATUS(data.status));
 }

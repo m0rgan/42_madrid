@@ -1,37 +1,65 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_pipex_utils.c                                   :+:      :+:    :+:   */
+/*   ft_pipex_utils_bonus.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: migumore <migumore@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 12:53:48 by migumore          #+#    #+#             */
-/*   Updated: 2024/03/01 19:58:09 by migumore         ###   ########.fr       */
+/*   Updated: 2024/03/03 15:39:43 by migumore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_pipex.h"
+#include "ft_pipex_bonus.h"
+
+void	num_commands(t_pipex *data, char *argv[])
+{
+	int		i;
+
+	data->commands = (char *)malloc(sizeof(char) * data->num_commands);
+	if (data->commands == NULL)
+	{
+		perror("Error!\nMemory allocation failed");
+		exit(1);
+	}
+	i = 0;
+	while (i < data->num_commands)
+	{
+		if (data->mode == 2)
+			data->commands[i] = argv[i + 2];
+		else
+			data->commands[i] = argv[i + 3];
+		i++;
+	}
+}
 
 void	parse_argv(int argc, char *argv[], t_pipex *data)
 {
-	if (argc != 5)
+	if (argc < 5)
 	{
-		perror("Usage is: ./executable file1 cmd1 cmd2 file2");
-		exit(1);
+		perror("Usage is: ./exec infile cmd1 cmd2 cmd3 ... cmdn outfile");
+		perror("Usage is: ./exec here_doc LIMITATOR cmd cmd1 outfile");
+		exit(127);
 	}
-	data->file1 = argv[1];
-	data->cmd1 = argv[2];
-	data->cmd2 = argv[3];
-	data->file2 = argv[4];
-}
-
-void	check_file1(t_pipex *data)
-{
-	if (access(data->file1, F_OK) == -1)
+	if (ft_strncmp(argv[1], "here_doc", 8) == 0)
 	{
-		perror("file1");
-		exit(0);
+		if (argc < 6)
+		{
+			perror("Usage is: ./exec here_doc LIMITATOR cmd cmd1 outfile");
+			exit(127);
+		}
+		data->mode = 3;
+		data->outfile = argv[argc - 1];
+		data->num_commands = argc - 4;
 	}
+	else
+	{
+		data->mode = 2;
+		data->infile = argv[1];
+		data->outfile = argv[argc - 1];
+		data->num_commands = argc - 3;
+	}
+	num_commands(data, argv);
 }
 
 char	*find_path(char *envp[])
