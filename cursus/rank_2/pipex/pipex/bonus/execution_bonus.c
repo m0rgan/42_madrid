@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execution.c                                        :+:      :+:    :+:   */
+/*   execution_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: migumore <migumore@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 12:10:33 by migumore          #+#    #+#             */
-/*   Updated: 2024/03/04 12:47:40 by migumore         ###   ########.fr       */
+/*   Updated: 2024/03/05 15:43:18 by migumore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_pipex_bonus.h"
+#include "../includes/includes.h"
 
 void	input_cmd(t_pipex *data, int i)
 {
@@ -26,8 +26,8 @@ void	output_cmd(t_pipex *data, int i)
 
 void	get_cmd_and_execute(t_pipex *data, int i, char *envp[])
 {
-	data->args = split_command(data->commands[i], data);
-	data->cmd = get_cmd(data->path, data->args[0]);
+	data->args = ft_split_command(&data->commands[i], data);
+	data->cmd = ft_get_cmd(data->path, data->args[0]);
 	execve(data->cmd, data->args, envp);
 	perror("execve");
 	exit(1);
@@ -54,7 +54,7 @@ void	wait_pids(t_pipex *data)
 	while (i < data->num_commands)
 	{
 		if (i == data->num_commands - 1)
-			waitpid(data->pids[i], data->status, 0);
+			waitpid(data->pids[i], &data->status, 0);
 		else
 			waitpid(data->pids[i], NULL, 0);
 		i++;

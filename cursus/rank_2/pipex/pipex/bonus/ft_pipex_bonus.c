@@ -6,15 +6,15 @@
 /*   By: migumore <migumore@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 15:38:30 by migumore          #+#    #+#             */
-/*   Updated: 2024/03/04 12:10:52 by migumore         ###   ########.fr       */
+/*   Updated: 2024/03/05 15:43:53 by migumore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_pipex_bonus.h"
+#include "../includes/includes.h"
 
 void	allocate_pids(t_pipex *data)
 {
-	data->pids = (char *)malloc(sizeof(pid_t) * data->num_commands);
+	data->pids = malloc(sizeof(pid_t) * data->num_commands);
 	if (data->pids == NULL)
 	{
 		perror("Error!\nMemory allocation failed");
@@ -76,10 +76,10 @@ void	pipex(t_pipex *data, char *envp[])
 int	main(int argc, char *argv[], char *envp[])
 {
 	t_pipex	data;
-	int		i;
+	int			i;
 
-	parse_argv(argc, argv, &data);
-	data.path_envp = find_path(envp);
+	parse_argvb(argc, argv, &data);
+	data.path_envp = ft_find_path(envp);
 	data.path = ft_split(data.path_envp, ':');
 	pipex(&data, envp);
 	i = 0;

@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_pipex_utils_bonus.c                             :+:      :+:    :+:   */
+/*   parse_argv_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: migumore <migumore@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 12:53:48 by migumore          #+#    #+#             */
-/*   Updated: 2024/03/04 15:36:22 by migumore         ###   ########.fr       */
+/*   Updated: 2024/03/05 15:51:09 by migumore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_pipex_bonus.h"
+#include "../includes/includes.h"
 
 void	num_commands(t_pipex *data, char *argv[])
 {
@@ -26,14 +26,14 @@ void	num_commands(t_pipex *data, char *argv[])
 	while (i < data->num_commands)
 	{
 		if (data->mode == 2)
-			data->commands[i] = argv[i + 2];
+			data->commands[i] = *argv[i + 2];
 		else
-			data->commands[i] = argv[i + 3];
+			data->commands[i] = *argv[i + 3];
 		i++;
 	}
 }
 
-void	parse_argv(int argc, char *argv[], t_pipex *data)
+void	parse_argvb(int argc, char *argv[], t_pipex *data)
 {
 	if (argc < 5)
 	{
@@ -49,14 +49,14 @@ void	parse_argv(int argc, char *argv[], t_pipex *data)
 			exit(127);
 		}
 		data->mode = 3;
-		data->outfile = argv[argc - 1];
+		data->outfl = argv[argc - 1];
 		data->num_commands = argc - 4;
 	}
 	else
 	{
 		data->mode = 2;
-		data->infile = argv[1];
-		data->outfile = argv[argc - 1];
+		data->infl = argv[1];
+		data->outfl = argv[argc - 1];
 		data->num_commands = argc - 3;
 	}
 	num_commands(data, argv);

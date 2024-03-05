@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   files_manage.c                                     :+:      :+:    :+:   */
+/*   files_manage_bonus.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: migumore <migumore@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 12:07:31 by migumore          #+#    #+#             */
-/*   Updated: 2024/03/04 12:15:19 by migumore         ###   ########.fr       */
+/*   Updated: 2024/03/05 15:43:36 by migumore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_pipex_bonus.h"
+#include "../includes/includes.h"
 
 void	infile(t_pipex *data)
 {

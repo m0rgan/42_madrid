@@ -6,11 +6,11 @@
 /*   By: migumore <migumore@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 15:35:50 by migumore          #+#    #+#             */
-/*   Updated: 2024/03/04 16:17:49 by migumore         ###   ########.fr       */
+/*   Updated: 2024/03/05 12:47:13 by migumore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "utils.h"
+#include "../includes/includes.h"
 
 char	*ft_find_path(char *envp[])
 {

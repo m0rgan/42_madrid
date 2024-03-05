@@ -6,11 +6,11 @@
 /*   By: migumore <migumore@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 15:34:45 by migumore          #+#    #+#             */
-/*   Updated: 2024/03/04 16:18:11 by migumore         ###   ########.fr       */
+/*   Updated: 2024/03/05 12:47:16 by migumore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "utils.h"
+#include "../includes/includes.h"
 
 char	*ft_get_cmd(char **path, char *cmd)
 {
