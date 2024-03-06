@@ -15,6 +15,7 @@ BONUS = bonus/ft_pipex_bonus.c \
 UTILS = utils/ft_find_path.c \
 		utils/ft_free.c \
         utils/ft_get_cmd.c \
+		utils/ft_no_envp.c \
 		utils/ft_split_command.c
 SOURCE = $(MANDATORY) $(UTILS)
 SOURCE_BONUS = $(BONUS) $(UTILS)

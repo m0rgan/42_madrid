@@ -1,27 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_find_path.c                                     :+:      :+:    :+:   */
+/*   ft_no_envp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: migumore <migumore@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/04 15:35:50 by migumore          #+#    #+#             */
-/*   Updated: 2024/03/06 19:57:54 by migumore         ###   ########.fr       */
+/*   Created: 2024/03/06 19:59:23 by migumore          #+#    #+#             */
+/*   Updated: 2024/03/06 20:14:18 by migumore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/includes.h"
 
-char	*ft_find_path(char *envp[])
+void	ft_no_envp(t_pipex *data)
 {
-	int	i;
-
-	i = 0;
-	while (envp[i])
-	{
-		if (ft_strncmp(envp[i], "PATH=", 5) == 0)
-			return (envp[i] + 5);
-		i++;
-	}
-	return (NULL);
+	ft_putendl_fd("1", data->fd_outfile);
+	close(data->fd_outfile);
+	exit(0);
 }
