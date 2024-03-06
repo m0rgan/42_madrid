@@ -6,7 +6,7 @@
 /*   By: migumore <migumore@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 15:38:30 by migumore          #+#    #+#             */
-/*   Updated: 2024/03/05 15:47:26 by migumore         ###   ########.fr       */
+/*   Updated: 2024/03/06 11:46:25 by migumore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ void	parse_argv(int argc, char *argv[], t_pipex *data)
 {
 	if (argc != 5)
 	{
-		perror("Usage is: ./executable file1 cmd1 cmd2 file2");
-		exit(127);
+		perror("Usage is: ./executable infile cmd1 cmd2 outfile");
+		exit(1);
 	}
 	data->infl = argv[1];
 	data->cmd1 = argv[2];
@@ -30,7 +30,7 @@ void	pid2_process(t_pipex *data, char *envp[])
 	data->fd_outfile = open(data->outfl, O_CREAT | O_RDWR | O_TRUNC, 0644);
 	if (data->fd_outfile < 0)
 	{
-		perror("Error!\nFile 2 is not writable");
+		perror("open outfile");
 		exit(1);
 	}
 	dup2(data->fd_outfile, STDOUT_FILENO);
@@ -49,8 +49,8 @@ void	pid1_process(t_pipex *data, char *envp[])
 	data->fd_infile = open(data->infl, O_RDONLY);
 	if (data->fd_infile < 0)
 	{
-		perror("open file1");
-		exit(127);
+		perror("open infile");
+		exit(1);
 	}
 	dup2(data->fd_infile, STDIN_FILENO);
 	dup2(data->pipefd[1], STDOUT_FILENO);

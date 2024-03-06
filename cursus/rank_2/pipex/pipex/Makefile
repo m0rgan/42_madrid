@@ -20,42 +20,42 @@ SOURCE_BONUS = $(BONUS) $(UTILS)
 OBJS = $(SOURCE:.c=.o)
 OBJS_BONUS = $(SOURCE_BONUS:.c=.o)
 INCLS = -Iincludes
-PROG = pipex
-PROG_BONUS = pipex_bonus
+NAME = pipex
+NAME_B = pipex_bonus
 
-.c.o: %.o: %.c
-	@${CC} ${CFLAGS} ${INCLS} -c $< -o ${<:.c=.o}
+%.o: %.c
+	@${CC} ${CFLAGS} ${INCLS} -c $< -o $@
 
-all: $(PROG)
+all: $(NAME)
 
-${PROG}: ${OBJS}
+${NAME}: ${OBJS}
 	@echo "$(BLUE)<----compiling libft---->$(RESET)"
-	@make re -C ./libft &
+	@(cd ./libft && make re > /dev/null 2>&1) &
 	@for i in {1..2}; do \
 		echo "$(BLUE).$(RESET)"; \
 		sleep 1; \
 	done
 	@echo "$(GREEN)<----libft compiled!---->$(RESET)"
 	@echo "$(YELLOW)****/compiling pipex\****$(RESET)"
-	@$(CC) ${OBJS} -Llibft -lft -o ${PROG}
+	@$(CC) ${OBJS} -L./libft -lft -o ${NAME}
 	@for i in {1..1}; do \
 		echo "$(YELLOW).$(RESET)"; \
 		sleep 1; \
 	done
 	@echo "$(GREEN)****\pipex compiled!/****$(RESET)"
 
-bonus: $(PROG_BONUS)
+bonus: $(NAME_B)
 
-${PROG_BONUS}: ${OBJS_BONUS}
+${NAME_B}: ${OBJS_BONUS}
 	@echo "$(BLUE)<----compiling libft---->$(RESET)"
-	@make re -C ./libft &
+	@(cd ./libft && make re > /dev/null 2>&1) &
 	@for i in {1..2}; do \
 		echo "$(BLUE).$(RESET)"; \
 		sleep 1; \
 	done
 	@echo "$(GREEN)<----libft compiled!---->$(RESET)"
 	@echo "$(YELLOW)****/compiling pipex bonus\****$(RESET)"
-	@$(CC) ${OBJS_BONUS} -Llibft -lft -o ${PROG_BONUS}
+	@$(CC) ${OBJS_BONUS} -Llibft -lft -o ${NAME_B}
 	@for i in {1..1}; do \
 		echo "$(YELLOW).$(RESET)"; \
 		sleep 1; \
@@ -63,15 +63,14 @@ ${PROG_BONUS}: ${OBJS_BONUS}
 	@echo "$(GREEN)****\pipex bonus compiled!/****$(RESET)"
 
 clean:
-	@make clean -C ./libft
+	@(cd ./libft && make clean > /dev/null 2>&1) &
 	@rm -f ${OBJS} ${OBJS_BONUS}
 	@echo "$(RED)--->objects deleted<----$(RESET)"
 
 fclean: clean
-	@make fclean -C ./libft
-	@rm -f $(NAME)
-	@rm -f ${PROG}
-	@rm -f ${PROG_BONUS}
+	@(cd ./libft && make fclean > /dev/null 2>&1) &
+	@rm -f ${NAME}
+	@rm -f ${NAME_B}
 	@echo "$(RED)---->pipex deleted<----$(RESET)"
 
 re: fclean all

@@ -6,7 +6,7 @@
 /*   By: migumore <migumore@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 15:38:30 by migumore          #+#    #+#             */
-/*   Updated: 2024/03/05 15:43:53 by migumore         ###   ########.fr       */
+/*   Updated: 2024/03/06 11:21:23 by migumore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void	pipex(t_pipex *data, char *envp[])
 int	main(int argc, char *argv[], char *envp[])
 {
 	t_pipex	data;
-	int			i;
+	int		i;
 
 	parse_argvb(argc, argv, &data);
 	data.path_envp = ft_find_path(envp);

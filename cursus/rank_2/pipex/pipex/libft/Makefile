@@ -11,8 +11,8 @@ OBJS = $(SOURCE:.c=.o)
 INCLS = ./
 NAME = libft.a
 
-.c.o: %.o: %.c
-	@${CC} ${CFLAGS} -I ${INCLS} -c $< -o ${<:.c=.o}
+%.o: %.c
+	@${CC} ${CFLAGS} -I ${INCLS} -c $< -o $@
 
 $(NAME): ${OBJS}
 	@ar rcs ${NAME} ${OBJS}

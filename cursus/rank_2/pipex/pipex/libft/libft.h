@@ -6,7 +6,7 @@
 /*   By: migumore <migumore@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 11:23:11 by migumore          #+#    #+#             */
-/*   Updated: 2024/03/04 15:42:37 by migumore         ###   ########.fr       */
+/*   Updated: 2024/03/06 11:47:50 by migumore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define LIBFT_H
 # include <stdlib.h>
 # include <unistd.h>
+# include <stdint.h>
 
 int		ft_isalpha(int c);
 int		ft_isdigit(int c);
@@ -69,6 +70,5 @@ t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
 void	*ft_realloc(void *ptr, size_t original_size, size_t new_size);
 char	*ft_strndup(const char *s, size_t n);
 size_t	ft_strnlen(const char *s, size_t maxlen);
-
 
 #endif
