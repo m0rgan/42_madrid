@@ -6,7 +6,7 @@
 /*   By: migumore <migumore@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 11:17:53 by migumore          #+#    #+#             */
-/*   Updated: 2024/03/06 11:46:06 by migumore         ###   ########.fr       */
+/*   Updated: 2024/03/06 17:10:01 by migumore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ typedef struct s_pipex
 char	*ft_find_path(char *envp[]);
 char	*ft_get_cmd(char **path, char *cmd);
 char	**ft_split_command(const char *command, t_pipex *data);
+void	ft_free_args(t_pipex *data);
+void	ft_free_path(t_pipex *data);
 
 void	parse_argvb(int argc, char *argv[], t_pipex *data);
 void	infile(t_pipex *data);

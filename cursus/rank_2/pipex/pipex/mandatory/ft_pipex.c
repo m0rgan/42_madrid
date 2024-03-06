@@ -6,7 +6,7 @@
 /*   By: migumore <migumore@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 15:38:30 by migumore          #+#    #+#             */
-/*   Updated: 2024/03/06 11:46:25 by migumore         ###   ########.fr       */
+/*   Updated: 2024/03/06 17:21:39 by migumore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,9 @@ void	parse_argv(int argc, char *argv[], t_pipex *data)
 {
 	if (argc != 5)
 	{
-		perror("Usage is: ./executable infile cmd1 cmd2 outfile");
+		ft_putstr_fd("Usage: ", 2);
+		ft_putstr_fd(argv[0], 2);
+		ft_putstr_fd(" infile cmd1 cmd2 outfile\n", 2);
 		exit(1);
 	}
 	data->infl = argv[1];
@@ -30,6 +32,7 @@ void	pid2_process(t_pipex *data, char *envp[])
 	data->fd_outfile = open(data->outfl, O_CREAT | O_RDWR | O_TRUNC, 0644);
 	if (data->fd_outfile < 0)
 	{
+		ft_free_path(data);
 		perror("open outfile");
 		exit(1);
 	}
@@ -39,6 +42,13 @@ void	pid2_process(t_pipex *data, char *envp[])
 	close(data->fd_outfile);
 	data->args = ft_split_command(data->cmd2, data);
 	data->cmd = ft_get_cmd(data->path, data->args[0]);
+	if (!data->cmd)
+	{
+		ft_free_args(data);
+		ft_free_path(data);
+		perror("cmd2");
+		exit(127);
+	}
 	execve(data->cmd, data->args, envp);
 	perror("execve cmd2");
 	exit(1);
@@ -49,6 +59,7 @@ void	pid1_process(t_pipex *data, char *envp[])
 	data->fd_infile = open(data->infl, O_RDONLY);
 	if (data->fd_infile < 0)
 	{
+		ft_free_path(data);
 		perror("open infile");
 		exit(1);
 	}
@@ -58,23 +69,30 @@ void	pid1_process(t_pipex *data, char *envp[])
 	close(data->fd_infile);
 	data->args = ft_split_command(data->cmd1, data);
 	data->cmd = ft_get_cmd(data->path, data->args[0]);
+	if (!data->cmd)
+	{
+		ft_free_args(data);
+		ft_free_path(data);
+		perror("cmd1");
+		exit(127);
+	}
 	execve(data->cmd, data->args, envp);
 	perror("execve cmd1");
 	exit(1);
 }
 
-void	pipex(t_pipex *data, char *envp[])
+int	pipex(t_pipex *data, char *envp[])
 {
 	if (pipe(data->pipefd) == -1)
 	{
 		perror("pipe");
-		exit(-1);
+		return (-1);
 	}
 	data->pid1 = fork();
 	if (data->pid1 == -1)
 	{
 		perror("fork pid1");
-		exit(-1);
+		return (-1);
 	}
 	if (data->pid1 == 0)
 		pid1_process(data, envp);
@@ -82,28 +100,28 @@ void	pipex(t_pipex *data, char *envp[])
 	if (data->pid2 == -1)
 	{
 		perror("fork pid2");
-		exit(-1);
+		return (-1);
 	}
 	if (data->pid2 == 0)
 		pid2_process(data, envp);
 	close(data->pipefd[0]);
 	close(data->pipefd[1]);
 	waitpid(data->pid1, NULL, 0);
-	waitpid(data->pid2, &data->status, 0);
+	return (waitpid(data->pid2, &data->status, 0));
 }
 
 int	main(int argc, char *argv[], char *envp[])
 {
 	t_pipex	data;
-	int		i;
 
 	parse_argv(argc, argv, &data);
 	data.path_envp = ft_find_path(envp);
 	data.path = ft_split(data.path_envp, ':');
-	pipex(&data, envp);
-	i = 0;
-	while (data.path[i])
-		free(data.path[i++]);
-	free(data.path);
+	if (pipex(&data, envp) == -1)
+	{
+		ft_free_path(&data);
+		return (1);
+	}
+	ft_free_path(&data);
 	return (WEXITSTATUS(data.status));
 }
