@@ -6,7 +6,7 @@
 /*   By: migumore <migumore@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 19:53:11 by migumore          #+#    #+#             */
-/*   Updated: 2024/02/08 17:43:26 by migumore         ###   ########.fr       */
+/*   Updated: 2024/03/07 11:23:19 by migumore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,10 +105,10 @@ char	*ft_remaining_text(char *read_text)
 
 char	*get_next_line(int fd)
 {
-	static char	*read_text[MAX_FDS];
+	static char	*read_text[OPEN_MAX];
 	char		*line;
 
-	if (fd < 0 || BUFFER_SIZE <= 0 || fd >= MAX_FDS)
+	if (fd < 0 || BUFFER_SIZE <= 0 || fd >= OPEN_MAX)
 		return (NULL);
 	if (read(fd, 0, 0))
 	{

@@ -6,7 +6,7 @@
 /*   By: migumore <migumore@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 20:02:43 by migumore          #+#    #+#             */
-/*   Updated: 2024/02/08 17:43:51 by migumore         ###   ########.fr       */
+/*   Updated: 2024/03/07 11:22:59 by migumore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,10 @@
 
 # include <stdlib.h>
 # include <unistd.h>
+# include <limits.h>
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 1024
-# endif
-
-# ifndef MAX_FDS
-#  define MAX_FDS 1024
 # endif
 
 size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
