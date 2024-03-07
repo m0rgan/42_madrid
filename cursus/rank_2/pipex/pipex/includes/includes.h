@@ -6,7 +6,7 @@
 /*   By: migumore <migumore@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 11:17:53 by migumore          #+#    #+#             */
-/*   Updated: 2024/03/06 20:02:23 by migumore         ###   ########.fr       */
+/*   Updated: 2024/03/07 18:32:38 by migumore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,14 @@
 # include <sys/wait.h>
 # include <fcntl.h>
 # include "../libft/libft.h"
+# include "../gnl/get_next_line.h"
 
 typedef struct s_pipex
 {
 	int			mode;
 	int			num_commands;
 	char		*infl;
-	char		*commands;
+	char		**commands;
 	char		*outfl;
 	int			fd_infile;
 	int			fd_outfile;
@@ -34,7 +35,6 @@ typedef struct s_pipex
 	int			pipefd[2];
 	pid_t		pid1;
 	pid_t		pid2;
-	pid_t		*pids;
 	char		*path_envp;
 	char		**path;
 	char		*cmd;
@@ -47,6 +47,7 @@ typedef struct s_pipex
 	char		quote;
 }	t_pipex;
 
+/*Util functions for mandatory and bonus*/
 char	*ft_find_path(char *envp[]);
 char	*ft_get_cmd(char **path, char *cmd);
 char	**ft_split_command(const char *command, t_pipex *data);
@@ -54,13 +55,14 @@ void	ft_free_args(t_pipex *data);
 void	ft_free_path(t_pipex *data);
 void	ft_no_envp(t_pipex *data);
 
+/*Boonus only functions*/
 void	parse_argvb(int argc, char *argv[], t_pipex *data);
 void	infile(t_pipex *data);
 void	outfile(t_pipex *data);
-void	input_cmd(t_pipex *data, int i);
-void	output_cmd(t_pipex *data, int i);
+void	input_cmd(t_pipex *data);
+void	output_cmd(t_pipex *data);
 void	get_cmd_and_execute(t_pipex *data, int i, char *envp[]);
-void	close_pipes(t_pipex *data);
-void	wait_pids(t_pipex *data);
+// void	close_pipes(t_pipex *data);
+// void	wait_pids(t_pipex *data);
 
 #endif

@@ -6,17 +6,18 @@
 /*   By: migumore <migumore@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 12:53:48 by migumore          #+#    #+#             */
-/*   Updated: 2024/03/05 15:51:09 by migumore         ###   ########.fr       */
+/*   Updated: 2024/03/07 17:04:22 by migumore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/includes.h"
 
-void	num_commands(t_pipex *data, char *argv[])
+static void	allocate_commands(t_pipex *data, char *argv[])
 {
-	int		i;
+	int	i;
 
-	data->commands = (char *)malloc(sizeof(char) * data->num_commands);
+	data->commands = (char **)malloc(sizeof(char *) * (data->num_commands + 1));
+	data->commands[data->num_commands] = NULL;
 	if (data->commands == NULL)
 	{
 		perror("Error!\nMemory allocation failed");
@@ -26,9 +27,9 @@ void	num_commands(t_pipex *data, char *argv[])
 	while (i < data->num_commands)
 	{
 		if (data->mode == 2)
-			data->commands[i] = *argv[i + 2];
+			data->commands[i] = ft_strdup(argv[i + data->mode]);
 		else
-			data->commands[i] = *argv[i + 3];
+			data->commands[i] = ft_strdup(argv[i + data->mode]);
 		i++;
 	}
 }
@@ -46,7 +47,7 @@ void	parse_argvb(int argc, char *argv[], t_pipex *data)
 		if (argc < 6)
 		{
 			perror("Usage is: ./exec here_doc LIMITATOR cmd cmd1 outfile");
-			exit(127);
+			exit(1);
 		}
 		data->mode = 3;
 		data->outfl = argv[argc - 1];
@@ -59,5 +60,5 @@ void	parse_argvb(int argc, char *argv[], t_pipex *data)
 		data->outfl = argv[argc - 1];
 		data->num_commands = argc - 3;
 	}
-	num_commands(data, argv);
+	allocate_commands(data, argv);
 }

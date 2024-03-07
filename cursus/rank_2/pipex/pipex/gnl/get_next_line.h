@@ -1,25 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: migumore <migumore@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/12 13:28:21 by migumore          #+#    #+#             */
-/*   Updated: 2024/03/07 17:03:14 by migumore         ###   ########.fr       */
+/*   Created: 2024/01/26 20:02:43 by migumore          #+#    #+#             */
+/*   Updated: 2024/03/07 11:29:57 by migumore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#ifndef GET_NEXT_LINE_H
+# define GET_NEXT_LINE_H
 
-char	*ft_strdup(const char *s)
-{
-	size_t	len;
-	char	*d;
+# include "../includes/includes.h"
 
-	len = ft_strlen(s);
-	d = malloc(sizeof(char) * (len + 1));
-	if (d != NULL)
-		ft_strlcpy(d, s, len + 1);
-	return (d);
-}
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 1024
+# endif
+
+char	*initialize_read_text(char *read_text);
+char	*get_next_line(int fd);
+
+#endif

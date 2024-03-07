@@ -1,25 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: migumore <migumore@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/12 13:28:21 by migumore          #+#    #+#             */
-/*   Updated: 2024/03/07 17:03:14 by migumore         ###   ########.fr       */
+/*   Created: 2024/01/26 19:54:01 by migumore          #+#    #+#             */
+/*   Updated: 2024/03/07 11:30:52 by migumore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "get_next_line.h"
 
-char	*ft_strdup(const char *s)
+char	*initialize_read_text(char *read_text)
 {
-	size_t	len;
-	char	*d;
-
-	len = ft_strlen(s);
-	d = malloc(sizeof(char) * (len + 1));
-	if (d != NULL)
-		ft_strlcpy(d, s, len + 1);
-	return (d);
+	if (!read_text)
+	{
+		read_text = (char *)malloc(sizeof(char));
+		if (!read_text)
+			return (NULL);
+		read_text[0] = '\0';
+	}
+	return (read_text);
 }

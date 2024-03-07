@@ -12,15 +12,15 @@ INCLS = ./
 NAME = libft.a
 
 %.o: %.c
-	@${CC} ${CFLAGS} -I ${INCLS} -c $< -o $@
+	@$(CC) $(CFLAGS) -I $(INCLS) -c $< -o $@
 
-$(NAME): ${OBJS}
-	@ar rcs ${NAME} ${OBJS}
+$(NAME): $(OBJS)
+	@ar rcs $(NAME) $(OBJS)
 
-all: ${NAME}
+all: $(NAME)
 
 clean:
-	@rm -f ${OBJS}
+	@rm -f $(OBJS)
 
 fclean: clean
 	@rm -f $(NAME)

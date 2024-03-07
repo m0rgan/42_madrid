@@ -6,13 +6,13 @@
 /*   By: migumore <migumore@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 15:38:30 by migumore          #+#    #+#             */
-/*   Updated: 2024/03/06 20:14:44 by migumore         ###   ########.fr       */
+/*   Updated: 2024/03/07 17:45:09 by migumore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/includes.h"
 
-void	parse_argv(int argc, char *argv[], t_pipex *data)
+static void	parse_argv(int argc, char *argv[], t_pipex *data)
 {
 	if (argc != 5)
 	{
@@ -27,7 +27,7 @@ void	parse_argv(int argc, char *argv[], t_pipex *data)
 	data->outfl = argv[4];
 }
 
-void	pid2_process(t_pipex *data, char *envp[])
+static void	pid2_process(t_pipex *data, char *envp[])
 {
 	data->fd_outfile = open(data->outfl, O_CREAT | O_RDWR | O_TRUNC, 0644);
 	if (data->fd_outfile < 0)
@@ -54,7 +54,7 @@ void	pid2_process(t_pipex *data, char *envp[])
 	exit(1);
 }
 
-void	pid1_process(t_pipex *data, char *envp[])
+static void	pid1_process(t_pipex *data, char *envp[])
 {
 	data->fd_infile = open(data->infl, O_RDONLY);
 	if (data->fd_infile < 0)
@@ -81,7 +81,7 @@ void	pid1_process(t_pipex *data, char *envp[])
 	exit(1);
 }
 
-int	pipex(t_pipex *data, char *envp[])
+static int	pipex(t_pipex *data, char *envp[])
 {
 	if (pipe(data->pipefd) == -1)
 	{
