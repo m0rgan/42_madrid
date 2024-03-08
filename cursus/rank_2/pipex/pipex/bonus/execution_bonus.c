@@ -6,7 +6,7 @@
 /*   By: migumore <migumore@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 12:10:33 by migumore          #+#    #+#             */
-/*   Updated: 2024/03/07 18:32:29 by migumore         ###   ########.fr       */
+/*   Updated: 2024/03/08 15:57:47 by migumore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,30 +34,30 @@ void	get_cmd_and_execute(t_pipex *data, int i, char *envp[])
 	exit(1);
 }
 
-// void	close_pipes(t_pipex *data)
-// {
-// 	int	i;
+void	close_pipes(t_pipex *data)
+{
+	int	i;
 
-// 	i = 0;
-// 	while (i < data->num_commands - 1)
-// 	{
-// 		close(data->pipefd[2 * i]);
-// 		close(data->pipefd[2 * i + 1]);
-// 		i++;
-// 	}
-// }
+	i = 0;
+	while (i < data->num_commands - 1)
+	{
+		close(data->pipefd[0]);
+		close(data->pipefd[1]);
+		i++;
+	}
+}
 
-// void	wait_pids(t_pipex *data)
-// {
-// 	int	i;
+void	wait_pids(t_pipex *data, pid_t *pid)
+{
+	int	i;
 
-// 	i = 0;
-// 	while (i < data->num_commands)
-// 	{
-// 		if (i == data->num_commands - 1)
-// 			waitpid(data->pids[i], &data->status, 0);
-// 		else
-// 			waitpid(data->pids[i], NULL, 0);
-// 		i++;
-// 	}
-// }
+	i = 0;
+	while (i < data->num_commands)
+	{
+		if (i == data->num_commands - 1)
+			waitpid(*pid, &data->status, 0);
+		else
+			waitpid(*pid, NULL, 0);
+		i++;
+	}
+}

@@ -6,7 +6,7 @@
 /*   By: migumore <migumore@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 15:38:30 by migumore          #+#    #+#             */
-/*   Updated: 2024/03/07 18:33:25 by migumore         ###   ########.fr       */
+/*   Updated: 2024/03/08 16:35:30 by migumore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,46 +22,34 @@
 // 	}
 // }
 
-// static void	do_pipe(t_pipex *data, int i)
-// {
-// 	if (i < data->num_commands - 1)
-// 	{
-// 		if (pipe(data->pipefd) == -1)
-// 		{
-// 			perror("pipe");
-// 			exit(-1);
-// 		}
-// 	}
-// }
+static void	do_pipe(t_pipex *data, int i)
+{
+	if (i < data->num_commands - 1)
+	{
+		if (pipe(data->pipefd) == -1)
+		{
+			perror("pipe");
+			exit(-1);
+		}
+	}
+}
 
-// static void	do_fork(t_pipex *data)
-// {
-// 	pids = fork();
-// 	if (pids == -1)
-// 	{
-// 		perror("fork");
-// 		exit(-1);
-// 	}
-// }
+static void	do_fork(pid_t *pid)
+{
+	*pid = fork();
+	if (*pid == -1)
+	{
+		perror("fork");
+		exit(-1);
+	}
+}
 
 static void	pipex(t_pipex *data, char *envp[], int i)
 {
 	pid_t		pid;
 
-	// do_pipe(data, i);
-	// do_fork(pids);
-	if (pipe(data->pipefd) == -1)
-	{
-		perror("pipe");
-		exit(-1);
-	}
-	pid = fork();
-	if (pid == -1)
-	{
-		perror("fork");
-		exit(-1);
-	}
-	printf("i: %d\n", i);
+	do_pipe(data, i);
+	do_fork(&pid);
 	if (pid == 0)
 	{
 		if (i == 0)
@@ -76,11 +64,8 @@ static void	pipex(t_pipex *data, char *envp[], int i)
 		printf("Executing command: %s\n", data->commands[i]);
 		get_cmd_and_execute(data, i, envp);
 	}
-	// close_pipes(data);
-	close(data->pipefd[1]);
-	dup2(data->pipefd[0], STDIN_FILENO);
-	// wait_pids(data);
-	waitpid(pid, &data->status, 0);
+	close_pipes(data);
+	wait_pids(data, &pid);
 	// free(data->pids);
 }
 
@@ -92,7 +77,11 @@ int	main(int argc, char *argv[], char *envp[])
 	parse_argvb(argc, argv, &data);
 	data.path_envp = ft_find_path(envp);
 	data.path = ft_split(data.path_envp, ':');
-	//allocate_pids(&data);
+	if (data.mode == 2)
+	{
+		infile(&data);
+		outfile(&data);
+	}
 	i = 0;
 	while (i < data.num_commands)
 	{
