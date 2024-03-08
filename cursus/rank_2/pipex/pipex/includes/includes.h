@@ -6,7 +6,7 @@
 /*   By: migumore <migumore@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 11:17:53 by migumore          #+#    #+#             */
-/*   Updated: 2024/03/08 15:36:20 by migumore         ###   ########.fr       */
+/*   Updated: 2024/03/08 18:01:28 by migumore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	ft_free_args(t_pipex *data);
 void	ft_free_path(t_pipex *data);
 void	ft_no_envp(t_pipex *data);
 
-/*Boonus only functions*/
+/*Bonus only functions*/
 void	parse_argvb(int argc, char *argv[], t_pipex *data);
 void	infile(t_pipex *data);
 void	outfile(t_pipex *data);
