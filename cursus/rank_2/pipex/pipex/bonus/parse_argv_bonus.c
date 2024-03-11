@@ -6,13 +6,13 @@
 /*   By: migumore <migumore@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 12:53:48 by migumore          #+#    #+#             */
-/*   Updated: 2024/03/07 17:04:22 by migumore         ###   ########.fr       */
+/*   Updated: 2024/03/11 17:13:22 by migumore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/includes.h"
 
-static void	allocate_commands(t_pipex *data, char *argv[])
+void	store_commands(t_pipex *data, char *argv[])
 {
 	int	i;
 
@@ -50,6 +50,7 @@ void	parse_argvb(int argc, char *argv[], t_pipex *data)
 			exit(1);
 		}
 		data->mode = 3;
+		data->limiter = argv[2];
 		data->outfl = argv[argc - 1];
 		data->num_commands = argc - 4;
 	}
@@ -60,5 +61,4 @@ void	parse_argvb(int argc, char *argv[], t_pipex *data)
 		data->outfl = argv[argc - 1];
 		data->num_commands = argc - 3;
 	}
-	allocate_commands(data, argv);
 }

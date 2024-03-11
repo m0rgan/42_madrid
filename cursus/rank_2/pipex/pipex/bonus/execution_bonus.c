@@ -6,7 +6,7 @@
 /*   By: migumore <migumore@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 12:10:33 by migumore          #+#    #+#             */
-/*   Updated: 2024/03/08 15:57:47 by migumore         ###   ########.fr       */
+/*   Updated: 2024/03/11 16:24:12 by migumore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,15 @@ void	output_cmd(t_pipex *data)
 
 void	get_cmd_and_execute(t_pipex *data, int i, char *envp[])
 {
-	printf("Executing command: %s\n", data->commands[i]);
 	data->args = ft_split_command(data->commands[i], data);
 	data->cmd = ft_get_cmd(data->path, data->args[0]);
+	if (!data->cmd)
+	{
+		ft_free_args(data);
+		ft_free_path(data);
+		perror("cmd");
+		exit(127);
+	}
 	execve(data->cmd, data->args, envp);
 	perror("execve");
 	exit(1);

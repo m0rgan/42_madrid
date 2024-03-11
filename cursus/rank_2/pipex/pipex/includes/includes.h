@@ -6,7 +6,7 @@
 /*   By: migumore <migumore@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 11:17:53 by migumore          #+#    #+#             */
-/*   Updated: 2024/03/08 18:01:28 by migumore         ###   ########.fr       */
+/*   Updated: 2024/03/11 17:13:11 by migumore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ typedef struct s_pipex
 	char		*cmd1;
 	char		*cmd2;
 	int			pipefd[2];
+	char		*limiter;
 	// pid_t		*pids;
 	pid_t		pid1;
 	pid_t		pid2;
@@ -58,6 +59,7 @@ void	ft_no_envp(t_pipex *data);
 
 /*Bonus only functions*/
 void	parse_argvb(int argc, char *argv[], t_pipex *data);
+void	store_commands(t_pipex *data, char *argv[]);
 void	infile(t_pipex *data);
 void	outfile(t_pipex *data);
 void	input_cmd(t_pipex *data);
@@ -65,5 +67,7 @@ void	output_cmd(t_pipex *data);
 void	get_cmd_and_execute(t_pipex *data, int i, char *envp[]);
 void	close_pipes(t_pipex *data);
 void	wait_pids(t_pipex *data, pid_t *pid);
+void	pipe_error(void);
+void	fork_error(void);
 
 #endif
