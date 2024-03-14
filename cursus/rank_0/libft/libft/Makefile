@@ -51,7 +51,7 @@ $(NAME): $(SOURCE:.c=.o)
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
-.PHONY: clean fclean re all bonus
+all: $(NAME)
 
 clean:
 	@rm -f $(SOURCE:.c=.o) $(BONUS:.c=.o)
@@ -61,7 +61,7 @@ fclean: clean
 
 re: fclean all
 
-all: $(NAME)
-
 bonus: $(BONUS:.c=.o)
 	ar rcs $(NAME) $^
+
+.PHONY: clean fclean re all bonus
