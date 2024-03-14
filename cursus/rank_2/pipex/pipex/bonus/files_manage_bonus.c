@@ -6,7 +6,7 @@
 /*   By: migumore <migumore@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 12:07:31 by migumore          #+#    #+#             */
-/*   Updated: 2024/03/11 17:22:35 by migumore         ###   ########.fr       */
+/*   Updated: 2024/03/14 15:04:21 by migumore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,38 +14,15 @@
 
 void	here_doc(t_pipex *data)
 {
-	pid_t	pid;
-	int		pipefd[2];
 	char	*line;
 
-	if (pipe(pipefd) == -1)
-		pipe_error();
-	pid = fork();
-	if (pid == -1)
-		fork_error();
-	if (pid == 0)
+	while (1)
 	{
-		close(pipefd[0]);
-		while (1)
-		{
-			line = get_next_line(STDIN_FILENO);
-			if (ft_strncmp(line, data->limiter, ft_strlen(data->limiter)) == 0)
-			{
-				free(line);
-				break ;
-			}
-			write(pipefd[1], line, ft_strlen(line));
-			write(pipefd[1], "\n", 1);
-			free(line);
-		}
-		close(pipefd[1]);
-		exit(0);
-	}
-	else
-	{
-		close(pipefd[1]);
-		dup2(pipefd[0], STDIN_FILENO);
-		waitpid(pid, &data->status, 0);
+		line = get_next_line(STDIN_FILENO);
+		if (ft_strncmp(line, data->limiter, ft_strlen(data->limiter)) == 0)
+			break ;
+		write(data->fd_infile, line, ft_strlen(line));
+		free(line);
 	}
 }
 
@@ -61,7 +38,6 @@ void	infile(t_pipex *data)
 			perror("open infile");
 			exit(1);
 		}
-		dup2(data->fd_infile, STDIN_FILENO);
 	}
 	else
 	{
@@ -69,6 +45,7 @@ void	infile(t_pipex *data)
 		if (data->fd_infile < 0)
 		{
 			ft_free_path(data);
+			unlink("here_doc");
 			perror("open here_doc");
 			exit(1);
 		}
