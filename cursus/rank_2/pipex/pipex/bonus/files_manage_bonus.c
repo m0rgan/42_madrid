@@ -6,13 +6,13 @@
 /*   By: migumore <migumore@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 12:07:31 by migumore          #+#    #+#             */
-/*   Updated: 2024/03/14 15:04:21 by migumore         ###   ########.fr       */
+/*   Updated: 2024/03/15 19:02:10 by migumore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/includes.h"
 
-void	here_doc(t_pipex *data)
+static void	here_doc(t_pipex *data)
 {
 	char	*line;
 

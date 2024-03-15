@@ -6,20 +6,20 @@
 /*   By: migumore <migumore@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 15:38:30 by migumore          #+#    #+#             */
-/*   Updated: 2024/03/14 14:44:06 by migumore         ###   ########.fr       */
+/*   Updated: 2024/03/15 19:57:07 by migumore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/includes.h"
 
-void	pipe_error(t_pipex *data)
+static void	pipe_error(t_pipex *data)
 {
 	ft_free_path(data);
 	perror("pipe");
 	exit(-1);
 }
 
-void	fork_error(t_pipex *data)
+static void	fork_error(t_pipex *data)
 {
 	ft_free_path(data);
 	perror("fork");
@@ -41,15 +41,19 @@ static void	pipex(t_pipex *data, char *envp[], int i)
 		fork_error(data);
 	if (pid == 0)
 	{
-		close(pipefd[0]);
-		dup2(pipefd[1], STDOUT_FILENO);
+		if (i == 0)
+			dup_infile_n_close(data, &pipefd);
+		else if (i == data->num_commands - 1)
+			dup_outfile_n_close(data, &pipefd);
+		else
+			dup_cmds_n_close(&pipefd);
 		get_cmd_and_execute(data, i, envp);
 	}
 	else
 	{
+		close(pipefd[0]);
 		close(pipefd[1]);
-		dup2(pipefd[0], STDIN_FILENO);
-		waitpid(pid, &data->status, 0);
+		wait_pids(data, &pid);
 	}
 }
 
@@ -70,8 +74,7 @@ int	main(int argc, char *argv[], char *envp[])
 		pipex(&data, envp, i);
 		i++;
 	}
-	dup2(data.fd_outfile, STDOUT_FILENO);
-	get_cmd_and_execute(&data, i, envp);
 	ft_free_path(&data);
+	unlink("here_doc");
 	return (WEXITSTATUS(data.status));
 }
