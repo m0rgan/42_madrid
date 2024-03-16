@@ -6,7 +6,7 @@
 /*   By: migumore <migumore@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 15:38:30 by migumore          #+#    #+#             */
-/*   Updated: 2024/03/15 19:57:07 by migumore         ###   ########.fr       */
+/*   Updated: 2024/03/16 13:25:34 by migumore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int	main(int argc, char *argv[], char *envp[])
 	data.path = ft_split(data.path_envp, ':');
 	infile(&data);
 	outfile(&data);
-	i = data.mode;
+	i = 0;
 	while (i < data.num_commands)
 	{
 		pipex(&data, envp, i);

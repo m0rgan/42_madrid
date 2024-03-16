@@ -6,21 +6,21 @@
 /*   By: migumore <migumore@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 12:10:33 by migumore          #+#    #+#             */
-/*   Updated: 2024/03/15 19:55:23 by migumore         ###   ########.fr       */
+/*   Updated: 2024/03/16 17:07:03 by migumore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/includes.h"
 
-void dup_infile_n_close(t_pipex *data, int (*pipefd)[2])
+void	dup_infile_n_close(t_pipex *data, int (*pipefd)[2])
 {
+	close((*pipefd)[0]);
 	dup2(data->fd_infile, STDIN_FILENO);
 	dup2((*pipefd)[1], STDOUT_FILENO);
-	close((*pipefd)[0]);
 	close(data->fd_infile);
 }
 
-void dup_outfile_n_close(t_pipex *data, int (*pipefd)[2])
+void	dup_outfile_n_close(t_pipex *data, int (*pipefd)[2])
 {
 	dup2(data->fd_outfile, STDOUT_FILENO);
 	dup2((*pipefd)[0], STDIN_FILENO);
@@ -28,7 +28,7 @@ void dup_outfile_n_close(t_pipex *data, int (*pipefd)[2])
 	close(data->fd_outfile);
 }
 
-void dup_cmds_n_close(int (*pipefd)[2])
+void	dup_cmds_n_close(int (*pipefd)[2])
 {
 	dup2((*pipefd)[0], STDIN_FILENO);
 	dup2((*pipefd)[1], STDOUT_FILENO);

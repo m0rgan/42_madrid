@@ -6,7 +6,7 @@
 /*   By: migumore <migumore@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 11:17:53 by migumore          #+#    #+#             */
-/*   Updated: 2024/03/15 19:18:50 by migumore         ###   ########.fr       */
+/*   Updated: 2024/03/16 17:08:35 by migumore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ typedef struct s_pipex
 	int			num_commands;
 	char		**commands;
 }	t_pipex;
-
 
 /*Util functions for mandatory and bonus*/
 char	*ft_find_path(char *envp[]);
