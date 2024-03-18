@@ -6,7 +6,7 @@
 /*   By: migumore <migumore@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 11:17:53 by migumore          #+#    #+#             */
-/*   Updated: 2024/03/18 14:43:08 by migumore         ###   ########.fr       */
+/*   Updated: 2024/03/18 21:26:50 by migumore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,8 @@ void	infile(t_pipex *data);
 void	outfile(t_pipex *data);
 void	dup_infile_n_close(t_pipex *data, int (*pipefd)[2]);
 void	dup_outfile_n_close(t_pipex *data, int (*pipefd)[2]);
-void	dup_cmds_n_close(int (*pipefd)[2]);
+// void	dup_cmds_n_close(int (*pipefd)[2]);
 void	get_cmd_and_execute(t_pipex *data, int i, char *envp[]);
-void	wait_pids(t_pipex *data, pid_t *pid);
+void	wait_pids(t_pipex *data, pid_t *pid, int i);
 
 #endif
