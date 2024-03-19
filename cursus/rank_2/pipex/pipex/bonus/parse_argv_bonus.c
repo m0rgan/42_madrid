@@ -6,7 +6,7 @@
 /*   By: migumore <migumore@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 12:53:48 by migumore          #+#    #+#             */
-/*   Updated: 2024/03/11 17:13:22 by migumore         ###   ########.fr       */
+/*   Updated: 2024/03/19 17:05:56 by migumore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	store_commands(t_pipex *data, char *argv[])
 	data->commands[data->num_commands] = NULL;
 	if (data->commands == NULL)
 	{
+		free(data->limiter);
 		perror("Error!\nMemory allocation failed");
 		exit(1);
 	}
@@ -50,7 +51,7 @@ void	parse_argvb(int argc, char *argv[], t_pipex *data)
 			exit(1);
 		}
 		data->mode = 3;
-		data->limiter = argv[2];
+		data->limiter = ft_strjoin(argv[2], "\n");
 		data->outfl = argv[argc - 1];
 		data->num_commands = argc - 4;
 	}
