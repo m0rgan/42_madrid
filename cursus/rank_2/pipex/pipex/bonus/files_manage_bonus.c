@@ -6,7 +6,7 @@
 /*   By: migumore <migumore@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 12:07:31 by migumore          #+#    #+#             */
-/*   Updated: 2024/03/19 17:19:06 by migumore         ###   ########.fr       */
+/*   Updated: 2024/03/20 17:59:35 by migumore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,16 @@ static void	here_doc(t_pipex *data)
 			break ;
 		write(data->fd_infile, line, ft_strlen(line));
 		free(line);
+	}
+	free(line);
+	close(data->fd_infile);
+	data->fd_infile = open("here_doc", O_RDONLY);
+	if (data->fd_infile < 0)
+	{
+		ft_free_cmds_n_limiter(data);
+		ft_free_path(data);
+		perror("open infile");
+		exit(1);
 	}
 }
 

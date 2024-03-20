@@ -6,7 +6,7 @@
 /*   By: migumore <migumore@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 13:50:18 by migumore          #+#    #+#             */
-/*   Updated: 2024/03/19 17:16:30 by migumore         ###   ########.fr       */
+/*   Updated: 2024/03/20 14:33:43 by migumore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,11 @@ void	ft_free_path(t_pipex *data)
 
 void	ft_free_cmds_n_limiter(t_pipex *data)
 {
-	free(data->limiter);
+	int	i;
+
+	i = 0;
+	while (data->commands[i])
+		free(data->commands[i++]);
 	free(data->commands);
+	free(data->limiter);
 }

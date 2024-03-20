@@ -1,0 +1,3 @@
+./pipex here_doc X "cat" "grep a" "sed 's/a/A/g'" "awk '{print \$1}'" "sort" "uniq -c" outfile
+./pipex infile2 "cat" "grep a" "sed 's/a/A/g'" "awk '{print \$1}'" "sort" "uniq -c" outfile2
+< infile cat | grep a | sed 's/a/A/g' | awk '{print $1}' | sort | uniq -c > bash

@@ -6,7 +6,7 @@
 /*   By: migumore <migumore@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 12:53:48 by migumore          #+#    #+#             */
-/*   Updated: 2024/03/19 17:05:56 by migumore         ###   ########.fr       */
+/*   Updated: 2024/03/20 17:33:11 by migumore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,14 +40,14 @@ void	parse_argvb(int argc, char *argv[], t_pipex *data)
 	if (argc < 5)
 	{
 		perror("Usage is: ./exec infile cmd1 cmd2 cmd3 ... cmdn outfile");
-		perror("Usage is: ./exec here_doc LIMITATOR cmd cmd1 outfile");
+		perror("Usage is: ./exec here_doc LIMITER cmd cmd1 outfile");
 		exit(127);
 	}
 	if (ft_strncmp(argv[1], "here_doc", 8) == 0)
 	{
 		if (argc < 6)
 		{
-			perror("Usage is: ./exec here_doc LIMITATOR cmd cmd1 outfile");
+			perror("Usage is: ./exec here_doc LIMITER cmd cmd1 outfile");
 			exit(1);
 		}
 		data->mode = 3;
