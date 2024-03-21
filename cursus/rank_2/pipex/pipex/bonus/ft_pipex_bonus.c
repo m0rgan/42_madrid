@@ -6,7 +6,7 @@
 /*   By: migumore <migumore@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 15:38:30 by migumore          #+#    #+#             */
-/*   Updated: 2024/03/21 17:02:27 by migumore         ###   ########.fr       */
+/*   Updated: 2024/03/21 17:39:07 by migumore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static void	allocate_pids(t_pipex *data)
 		ft_free_cmds_n_limiter(data);
 		ft_free_path(data);
 		perror("malloc");
-		exit(-1);
+		exit(1);
 	}
 }
 
