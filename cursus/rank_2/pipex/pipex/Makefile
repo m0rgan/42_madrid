@@ -31,34 +31,34 @@ NAME = pipex
 	@$(CC) $(CFLAGS) $(INCLS) -c $< -o $@
 
 $(NAME): $(OBJS)
-	@echo -e "$(BLUE)<----compiling libft---->$(RESET)"
+	@echo "$(BLUE)<----compiling libft---->$(RESET)"
 	@(cd ./libft && make re > /dev/null 2>&1)
-	@echo -e "$(GREEN)<----libft compiled!---->$(RESET)"
-	@echo -e "$(YELLOW)****/compiling pipex\****$(RESET)"
+	@echo "$(GREEN)<----libft compiled!---->$(RESET)"
+	@echo "$(YELLOW)****/compiling pipex\****$(RESET)"
 	@$(CC) $(OBJS) -L./libft -lft -o $(NAME)
-	@echo -e "$(GREEN)****\pipex compiled!/****$(RESET)"
+	@echo "$(GREEN)****\pipex compiled!/****$(RESET)"
 
 all: libft $(NAME)
 
 clean: libft
 	@(cd ./libft && make clean > /dev/null 2>&1)
 	@rm -f $(OBJS) $(OBJS_BONUS)
-	@echo -e "$(RED)--->objects deleted<----$(RESET)"
+	@echo "$(RED)--->objects deleted<----$(RESET)"
 
 fclean: clean
 	@(cd ./libft && make fclean > /dev/null 2>&1)
 	@rm -f $(NAME)
 	@rm -f $(NAME_B)
-	@echo -e "$(RED)---->pipex deleted<----$(RESET)"
+	@echo "$(RED)---->pipex deleted<----$(RESET)"
 
 re: fclean all
 
 bonus: libft $(OBJS_BONUS)
-	@echo -e "$(BLUE)<----compiling libft---->$(RESET)"
+	@echo "$(BLUE)<----compiling libft---->$(RESET)"
 	@(cd ./libft && make re > /dev/null 2>&1)
-	@echo -e "$(GREEN)<----libft compiled!---->$(RESET)"
-	@echo -e "$(YELLOW)****/compiling pipex bonus\****$(RESET)"
+	@echo "$(GREEN)<----libft compiled!---->$(RESET)"
+	@echo "$(YELLOW)****/compiling pipex bonus\****$(RESET)"
 	@$(CC) $(OBJS_BONUS) -L./libft -lft -o $(NAME)
-	@echo -e "$(GREEN)****\pipex bonus compiled!/****$(RESET)"
+	@echo "$(GREEN)****\pipex bonus compiled!/****$(RESET)"
 
 .PHONY: all clean fclean re bonus
