@@ -6,7 +6,7 @@
 /*   By: migumore <migumore@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 12:10:33 by migumore          #+#    #+#             */
-/*   Updated: 2024/03/20 14:39:30 by migumore         ###   ########.fr       */
+/*   Updated: 2024/03/21 13:12:08 by migumore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ void	dup_cmds_n_close(int (*prev_pipefd)[2], int (*next_pipefd)[2])
 	dup2((*prev_pipefd)[0], STDIN_FILENO);
 	close((*prev_pipefd)[0]);
 	close((*prev_pipefd)[1]);
-
 	if (next_pipefd != NULL)
 	{
 		dup2((*next_pipefd)[1], STDOUT_FILENO);

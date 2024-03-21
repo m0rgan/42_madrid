@@ -11,7 +11,8 @@ MANDATORY = mandatory/ft_pipex.c
 BONUS = bonus/ft_pipex_bonus.c \
 		bonus/execution_bonus.c \
 		bonus/files_manage_bonus.c \
-		bonus/parse_argv_bonus.c
+		bonus/parse_argv_bonus.c \
+		bonus/wait_pids_bonus.c
 UTILS = utils/ft_find_path.c \
 		utils/ft_free.c \
         utils/ft_get_cmd.c \

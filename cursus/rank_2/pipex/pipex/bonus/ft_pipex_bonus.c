@@ -6,7 +6,7 @@
 /*   By: migumore <migumore@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 15:38:30 by migumore          #+#    #+#             */
-/*   Updated: 2024/03/20 17:15:41 by migumore         ###   ########.fr       */
+/*   Updated: 2024/03/21 17:02:27 by migumore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,16 @@ static void	do_fork(pid_t *pid, t_pipex *data)
 	}
 }
 
-static void	wait_pids(t_pipex *data, pid_t *pid, int i)
+static void	allocate_pids(t_pipex *data)
 {
-	if (i == data->num_commands - 1)
-		waitpid(*pid, &data->status, 0);
-	else
-		waitpid(*pid, NULL, 0);
+	data->pids = malloc(sizeof(pid_t) * data->num_commands);
+	if (!data->pids)
+	{
+		ft_free_cmds_n_limiter(data);
+		ft_free_path(data);
+		perror("malloc");
+		exit(-1);
+	}
 }
 
 static void	pipex(t_pipex *data, char *envp[], int i)
@@ -66,8 +70,8 @@ static void	pipex(t_pipex *data, char *envp[], int i)
 	}
 	else
 	{
+		data->pids[i] = pid;
 		close_pipes(data, &prev_pipefd, &pipefd, i);
-		wait_pids(data, &pid, i);
 	}
 }
 
@@ -82,12 +86,15 @@ int	main(int argc, char *argv[], char *envp[])
 	data.path = ft_split(data.path_envp, ':');
 	infile(&data);
 	outfile(&data);
+	allocate_pids(&data);
 	i = 0;
 	while (i < data.num_commands)
 	{
 		pipex(&data, envp, i);
 		i++;
 	}
+	i = 0;
+	wait_pids(&data, i);
 	ft_free_cmds_n_limiter(&data);
 	ft_free_path(&data);
 	unlink("here_doc");

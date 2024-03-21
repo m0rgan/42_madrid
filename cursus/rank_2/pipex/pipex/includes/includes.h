@@ -6,7 +6,7 @@
 /*   By: migumore <migumore@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 11:17:53 by migumore          #+#    #+#             */
-/*   Updated: 2024/03/20 16:24:44 by migumore         ###   ########.fr       */
+/*   Updated: 2024/03/21 17:09:53 by migumore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ typedef struct s_pipex
 	int			mode;
 	char		*limiter;
 	int			num_commands;
+	pid_t		*pids;
 	char		**commands;
 }	t_pipex;
 
@@ -67,5 +68,6 @@ void	dup_cmds_n_close(int (*pipefd)[2], int (*prev_pipefd)[2]);
 void	get_cmd_and_execute(t_pipex *data, int i, char *envp[]);
 void	close_pipes(t_pipex *data, int (*prev_pipe)[2], int (*pipe)[2], int i);
 void	ft_free_cmds_n_limiter(t_pipex *data);
+void	wait_pids(t_pipex *data, int i);
 
 #endif
