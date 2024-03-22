@@ -20,10 +20,10 @@ UTILS = utils/ft_find_path.c \
 		utils/ft_split_command.c
 GNL = gnl/get_next_line.c \
 		gnl/get_next_line_utils.c
-SOURCE = $(MANDATORY) $(UTILS)
-SOURCE_BONUS = $(BONUS) $(UTILS) $(GNL)
-OBJS = $(SOURCE:.c=.o)
-OBJS_BONUS = $(SOURCE_BONUS:.c=.o)
+SRC = $(MANDATORY) $(UTILS)
+SRC_BONUS = $(BONUS) $(UTILS) $(GNL)
+OBJS = $(SRC:.c=.o)
+OBJS_BONUS = $(SRC_BONUS:.c=.o)
 INCLS = -Iincludes
 NAME = pipex
 
@@ -32,15 +32,15 @@ NAME = pipex
 
 $(NAME): $(OBJS)
 	@echo "$(BLUE)<----compiling libft---->$(RESET)"
-	@(cd ./libft && make re > /dev/null 2>&1)
+	@(cd ./libft && make > /dev/null 2>&1)
 	@echo "$(GREEN)<----libft compiled!---->$(RESET)"
 	@echo "$(YELLOW)****/compiling pipex\****$(RESET)"
 	@$(CC) $(OBJS) -L./libft -lft -o $(NAME)
 	@echo "$(GREEN)****\pipex compiled!/****$(RESET)"
 
-all: libft $(NAME)
+all: $(NAME)
 
-clean: libft
+clean:
 	@(cd ./libft && make clean > /dev/null 2>&1)
 	@rm -f $(OBJS) $(OBJS_BONUS)
 	@echo "$(RED)--->objects deleted<----$(RESET)"
@@ -53,12 +53,7 @@ fclean: clean
 
 re: fclean all
 
-bonus: libft $(OBJS_BONUS)
-	@echo "$(BLUE)<----compiling libft---->$(RESET)"
-	@(cd ./libft && make re > /dev/null 2>&1)
-	@echo "$(GREEN)<----libft compiled!---->$(RESET)"
-	@echo "$(YELLOW)****/compiling pipex bonus\****$(RESET)"
-	@$(CC) $(OBJS_BONUS) -L./libft -lft -o $(NAME)
-	@echo "$(GREEN)****\pipex bonus compiled!/****$(RESET)"
+bonus:
+	@make SRC='$(SRC_BONUS)'
 
 .PHONY: all clean fclean re bonus
