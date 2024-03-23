@@ -6,7 +6,7 @@
 /*   By: migumore <migumore@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 12:10:33 by migumore          #+#    #+#             */
-/*   Updated: 2024/03/21 18:09:08 by migumore         ###   ########.fr       */
+/*   Updated: 2024/03/23 20:36:00 by migumore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,17 +51,12 @@ void	get_cmd_and_execute(t_pipex *data, int i, char *envp[])
 		ft_free_args(data);
 		ft_free_path(data);
 		perror("cmd");
+		data->status = 127;
 		exit(127);
 	}
-	printf("cmd %i: %s\n", i, data->cmd);
-	if (execve(data->cmd, data->args, envp) == -1)
-	{
-		ft_free_cmds_n_limiter(data);
-		ft_free_args(data);
-		ft_free_path(data);
-		perror("execve");
-		exit(1);
-	}
+	execve(data->cmd, data->args, envp);
+	perror("execve");
+	exit(1);
 }
 
 void	close_pipes(t_pipex *data, int (*prev_pipe)[2], int (*pipe)[2], int i)
