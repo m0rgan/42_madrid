@@ -32,7 +32,7 @@ NAME = pipex
 
 $(NAME): $(OBJS)
 	@echo "$(BLUE)<----compiling libft---->$(RESET)"
-	@(cd ./libft && make > /dev/null 2>&1)
+	@(cd ./libft && make)
 	@echo "$(GREEN)<----libft compiled!---->$(RESET)"
 	@echo "$(YELLOW)****/compiling pipex\****$(RESET)"
 	@$(CC) $(OBJS) -L./libft -lft -o $(NAME)
@@ -41,12 +41,12 @@ $(NAME): $(OBJS)
 all: $(NAME)
 
 clean:
-	@(cd ./libft && make clean > /dev/null 2>&1)
+	@(cd ./libft && make clean)
 	@rm -f $(OBJS) $(OBJS_BONUS)
 	@echo "$(RED)--->objects deleted<----$(RESET)"
 
 fclean: clean
-	@(cd ./libft && make fclean > /dev/null 2>&1)
+	@(cd ./libft && make fclean)
 	@rm -f $(NAME)
 	@rm -f $(NAME_B)
 	@echo "$(RED)---->pipex deleted<----$(RESET)"
