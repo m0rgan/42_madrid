@@ -6,7 +6,7 @@
 /*   By: migumore <migumore@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 12:10:33 by migumore          #+#    #+#             */
-/*   Updated: 2024/03/25 12:22:45 by migumore         ###   ########.fr       */
+/*   Updated: 2024/03/25 15:06:08 by migumore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,10 @@ void	get_cmd_and_execute(t_pipex *data, int i, char *envp[])
 	data->cmd = ft_get_cmd(data->path, data->args[0]);
 	if (!data->cmd)
 	{
+		write_error("pipex: command not found: ", data->args[0]);
 		ft_free_cmds_n_limiter(data);
 		ft_free_args(data);
 		ft_free_path(data);
-		perror("cmd");
-		data->status = 127;
 		exit(127);
 	}
 	execve(data->cmd, data->args, envp);

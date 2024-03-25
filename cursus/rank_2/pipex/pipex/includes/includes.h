@@ -6,7 +6,7 @@
 /*   By: migumore <migumore@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 11:17:53 by migumore          #+#    #+#             */
-/*   Updated: 2024/03/21 17:09:53 by migumore         ###   ########.fr       */
+/*   Updated: 2024/03/25 15:10:04 by migumore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ char	*ft_get_cmd(char **path, char *cmd);
 char	**ft_split_command(const char *command, t_pipex *data);
 void	ft_free_args(t_pipex *data);
 void	ft_free_path(t_pipex *data);
-void	ft_no_envp(t_pipex *data);
+void	write_error(char *msg, char *arg);
 
 /*Bonus only functions*/
 void	parse_argvb(int argc, char *argv[], t_pipex *data);

@@ -1,20 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_no_envp.c                                       :+:      :+:    :+:   */
+/*   write_error.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: migumore <migumore@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/06 19:59:23 by migumore          #+#    #+#             */
-/*   Updated: 2024/03/06 20:14:18 by migumore         ###   ########.fr       */
+/*   Created: 2024/03/25 15:01:27 by migumore          #+#    #+#             */
+/*   Updated: 2024/03/25 15:01:44 by migumore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/includes.h"
 
-void	ft_no_envp(t_pipex *data)
+void	write_error(char *msg, char *arg)
 {
-	ft_putendl_fd("1", data->fd_outfile);
-	close(data->fd_outfile);
-	exit(0);
+	ft_putstr_fd(msg, STDERR_FILENO);
+	ft_putendl_fd(arg, STDERR_FILENO);
 }

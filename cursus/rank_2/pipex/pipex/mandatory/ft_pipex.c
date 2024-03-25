@@ -6,7 +6,7 @@
 /*   By: migumore <migumore@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 15:38:30 by migumore          #+#    #+#             */
-/*   Updated: 2024/03/20 14:28:32 by migumore         ###   ########.fr       */
+/*   Updated: 2024/03/25 16:06:39 by migumore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static void	parse_argv(int argc, char *argv[], t_pipex *data)
 	{
 		ft_putstr_fd("Usage: ", 2);
 		ft_putstr_fd(argv[0], 2);
-		ft_putstr_fd(" infile cmd1 cmd2 outfile\n", 2);
+		ft_putendl_fd(" infile cmd1 cmd2 outfile", 2);
 		exit(1);
 	}
 	data->infl = argv[1];
@@ -32,8 +32,8 @@ static void	pid2_process(t_pipex *data, char *envp[])
 	data->fd_outfile = open(data->outfl, O_CREAT | O_RDWR | O_TRUNC, 0644);
 	if (data->fd_outfile < 0)
 	{
+		write_error("pipex: No such file or directory: ", data->outfl);
 		ft_free_path(data);
-		perror("open outfile");
 		exit(1);
 	}
 	dup2(data->fd_outfile, STDOUT_FILENO);
@@ -44,9 +44,9 @@ static void	pid2_process(t_pipex *data, char *envp[])
 	data->cmd = ft_get_cmd(data->path, data->args[0]);
 	if (!data->cmd)
 	{
+		write_error("pipex: command not found: ", data->args[0]);
 		ft_free_args(data);
 		ft_free_path(data);
-		perror("cmd2");
 		exit(127);
 	}
 	execve(data->cmd, data->args, envp);
@@ -59,8 +59,8 @@ static void	pid1_process(t_pipex *data, char *envp[])
 	data->fd_infile = open(data->infl, O_RDONLY);
 	if (data->fd_infile < 0)
 	{
+		write_error("pipex: No such file or directory: ", data->infl);
 		ft_free_path(data);
-		perror("open infile");
 		exit(1);
 	}
 	dup2(data->fd_infile, STDIN_FILENO);
@@ -71,9 +71,9 @@ static void	pid1_process(t_pipex *data, char *envp[])
 	data->cmd = ft_get_cmd(data->path, data->args[0]);
 	if (!data->cmd)
 	{
+		write_error("pipex: command not found: ", data->args[0]);
 		ft_free_args(data);
 		ft_free_path(data);
-		perror("cmd1");
 		exit(127);
 	}
 	execve(data->cmd, data->args, envp);

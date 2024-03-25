@@ -16,8 +16,8 @@ BONUS = bonus/ft_pipex_bonus.c \
 UTILS = utils/ft_find_path.c \
 		utils/ft_free.c \
         utils/ft_get_cmd.c \
-		utils/ft_no_envp.c \
-		utils/ft_split_command.c
+		utils/ft_split_command.c \
+		utils/ft_write_error.c
 GNL = gnl/get_next_line.c \
 		gnl/get_next_line_utils.c
 SRC = $(MANDATORY) $(UTILS)
