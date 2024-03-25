@@ -6,7 +6,7 @@
 /*   By: migumore <migumore@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 14:15:52 by migumore          #+#    #+#             */
-/*   Updated: 2024/02/29 13:14:22 by migumore         ###   ########.fr       */
+/*   Updated: 2024/03/25 17:49:50 by migumore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static void	ft_freemem(char **array_s, size_t i)
 	free(array_s);
 }
 
-char	**split_to_array(char **array_s, char const *s, char c, size_t	words)
+static char	**split_to_array(char **array_s, char *s, char c, size_t words)
 {
 	size_t	i;
 	size_t	j;
@@ -81,9 +81,9 @@ char	**ft_split(char const *s, char c)
 	if (!s)
 		return (NULL);
 	words = ft_count_words(s, c);
-	array_s = malloc(sizeof(char *) * (words + 1));
+	array_s = (char **)malloc(sizeof(char *) * (words + 1));
 	if (array_s == NULL)
 		return (NULL);
-	array_s = split_to_array(array_s, s, c, words);
+	array_s = split_to_array(array_s, (char *)s, c, words);
 	return (array_s);
 }
