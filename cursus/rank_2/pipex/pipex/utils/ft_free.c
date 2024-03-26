@@ -6,7 +6,7 @@
 /*   By: migumore <migumore@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 13:50:18 by migumore          #+#    #+#             */
-/*   Updated: 2024/03/20 14:33:43 by migumore         ###   ########.fr       */
+/*   Updated: 2024/03/26 17:22:27 by migumore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,18 @@ void	ft_free_args(t_pipex *data)
 {
 	int	i;
 
-	i = 0;
-	while (data->args[i])
+	if (data->args)
 	{
-		free(data->args[i]);
-		i++;
+		i = 0;
+		while (data->args[i])
+		{
+			free(data->args[i]);
+			i++;
+		}
+		free(data->args);
 	}
-	free(data->args);
-	free(data->cmd);
+	if (data->cmd)
+		free(data->cmd);
 }
 
 void	ft_free_path(t_pipex *data)
@@ -31,9 +35,12 @@ void	ft_free_path(t_pipex *data)
 	int	i;
 
 	i = 0;
-	while (data->path[i])
-		free(data->path[i++]);
-	free(data->path);
+	if (data->path)
+	{
+		while (data->path[i])
+			free(data->path[i++]);
+		free(data->path);
+	}
 }
 
 void	ft_free_cmds_n_limiter(t_pipex *data)
@@ -41,8 +48,12 @@ void	ft_free_cmds_n_limiter(t_pipex *data)
 	int	i;
 
 	i = 0;
-	while (data->commands[i])
-		free(data->commands[i++]);
-	free(data->commands);
-	free(data->limiter);
+	if (data->commands)
+	{
+		while (data->commands[i])
+			free(data->commands[i++]);
+		free(data->commands);
+	}
+	if (data->limiter)
+		free(data->limiter);
 }
