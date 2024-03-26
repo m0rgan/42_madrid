@@ -6,7 +6,7 @@
 /*   By: migumore <migumore@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 12:53:48 by migumore          #+#    #+#             */
-/*   Updated: 2024/03/20 17:33:11 by migumore         ###   ########.fr       */
+/*   Updated: 2024/03/26 11:40:34 by migumore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,7 @@ void	store_commands(t_pipex *data, char *argv[])
 	i = 0;
 	while (i < data->num_commands)
 	{
-		if (data->mode == 2)
-			data->commands[i] = ft_strdup(argv[i + data->mode]);
-		else
-			data->commands[i] = ft_strdup(argv[i + data->mode]);
+		data->commands[i] = ft_strdup(argv[i + data->mode]);
 		i++;
 	}
 }
